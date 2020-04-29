@@ -94,22 +94,39 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildSignInWithText() {
+  Widget _buildOrDivider() {
     return Column(
       children: <Widget>[
-        SizedBox(height: 40.0),
-        Text(
-          '- OR -',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w400,
-          ),
+        SizedBox(
+          height: 40.0,
         ),
-        // SizedBox(height: 20.0),
-        // Text(
-        //   'Sign in with',
-        //   style: kLabelStyle,
-        // ),
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: new Container(
+                  margin: const EdgeInsets.only(left: 10.0, right: 15.0),
+                  child: Divider(
+                    color: Colors.white,
+                    height: 40,
+                  )),
+            ),
+            Text(
+              "OR",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.bold),
+            ),
+            Expanded(
+              child: new Container(
+                  margin: const EdgeInsets.only(left: 15.0, right: 10.0),
+                  child: Divider(
+                    color: Colors.white,
+                    height: 40,
+                  )),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -195,84 +212,54 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light,
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Stack(
-            children: <Widget>[
-              Container(
-                height: double.infinity,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xFF73AEF5),
-                      Color(0xFF61A4F1),
-                      Color(0xFF478DE0),
-                      Color(0xFF398AE5),
-                    ],
-                    stops: [0.1, 0.4, 0.7, 0.9],
-                  ),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Stack(
+          children: <Widget>[
+            Container(
+              height: double.infinity,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0xFF4B79A1),
+                    Color(0xFF283E51),
+                  ],
+                  stops: [0.1, 0.9],
                 ),
               ),
-              Container(
-                height: double.infinity,
-                child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 40.0,
-                    vertical: 360.0,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Sign In',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'OpenSans',
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
-                        ),
+            ),
+            Container(
+              height: double.infinity,
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                padding: EdgeInsets.only(top: 360.0, left: 40.0, right: 40.0),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      'Sign In',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'OpenSans',
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.bold,
                       ),
-                      SizedBox(height: 25.0),
-                      _buildEmailTF(),
-                      SizedBox(height: 10.0),
-                      _buildEmailTF(),
-                      SizedBox(height: 10.0),
-                      _buildEmailTF(),
-                      SizedBox(height: 10.0),
-                      _buildPasswordTF(),
-                      _buildLoginBtn(),
-                      _buildSignInWithText(),
-                      _buildSocialBtnRow(),
-                      _buildSignupBtn(),
-                      TextField(
-                        keyboardType: TextInputType.emailAddress,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'OpenSans',
-                        ),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.only(top: 14.0),
-                          prefixIcon: Icon(
-                            Icons.email,
-                            color: Colors.white,
-                          ),
-                          hintText: 'Enter your Email',
-                          hintStyle: kHintTextStyle,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(height: 25.0),
+                    _buildEmailTF(),
+                    SizedBox(height: 10.0),
+                    _buildPasswordTF(),
+                    _buildLoginBtn(),
+                    _buildOrDivider(),
+                    _buildSocialBtnRow(),
+                    _buildSignupBtn(),
+                  ],
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );
