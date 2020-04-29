@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mademe/screens/login_screen.dart';
 import 'package:mademe/utilities/constants.dart';
 
-class RegisterScreen extends StatefulWidget {
+class SignUpScreen extends StatefulWidget {
   @override
-  _RegisterScreenState createState() => _RegisterScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,7 +39,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildPasswordTF() {
+  Widget _buildPasswordTF(String _hint) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -59,7 +60,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Icons.lock,
                 color: Colors.white,
               ),
-              hintText: 'Enter your Password',
+              hintText: _hint,
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -68,20 +69,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildLoginBtn() {
+  Widget _buildSignUpBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 15.0),
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => print('Login Button Pressed'),
+        onPressed: () => print("Sign Up logic"),
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
         color: Colors.white,
         child: Text(
-          'LOGIN',
+          'SIGN UP',
           style: TextStyle(
             color: Color(0xFF527DAA),
             letterSpacing: 1.5,
@@ -94,22 +95,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildSignInWithText() {
+  Widget _buildOrDivider() {
     return Column(
       children: <Widget>[
-        SizedBox(height: 40.0),
-        Text(
-          '- OR -',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w400,
-          ),
+        SizedBox(
+          height: 40.0,
         ),
-        // SizedBox(height: 20.0),
-        // Text(
-        //   'Sign in with',
-        //   style: kLabelStyle,
-        // ),
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: new Container(
+                  margin: const EdgeInsets.only(left: 10.0, right: 15.0),
+                  child: Divider(
+                    color: Colors.white,
+                    height: 40,
+                  )),
+            ),
+            Text(
+              "OR",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.bold),
+            ),
+            Expanded(
+              child: new Container(
+                  margin: const EdgeInsets.only(left: 15.0, right: 10.0),
+                  child: Divider(
+                    color: Colors.white,
+                    height: 40,
+                  )),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -164,14 +182,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildSignupBtn() {
+  Widget _buildBackToLoginBtn() {
     return GestureDetector(
-      onTap: () => print('Sign Up Button Pressed'),
+      onTap: () {
+        Navigator.pop(context);
+      },
       child: RichText(
         text: TextSpan(
           children: [
             TextSpan(
-              text: 'Don\'t have an Account? ',
+              text: 'Already have an Account? ',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 13.0,
@@ -179,7 +199,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
             TextSpan(
-              text: 'Sign Up',
+              text: 'Log in',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 14.0,
@@ -195,65 +215,56 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light,
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Stack(
-            children: <Widget>[
-              Container(
-                height: double.infinity,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xFF73AEF5),
-                      Color(0xFF61A4F1),
-                      Color(0xFF478DE0),
-                      Color(0xFF398AE5),
-                    ],
-                    stops: [0.1, 0.4, 0.7, 0.9],
-                  ),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Stack(
+          children: <Widget>[
+            Container(
+              height: double.infinity,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0xFF4B79A1),
+                    Color(0xFF283E51),
+                  ],
+                  stops: [0.1, 0.9],
                 ),
               ),
-              Container(
-                height: double.infinity,
-                child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 40.0,
-                    vertical: 360.0,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Sign In',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'OpenSans',
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
-                        ),
+            ),
+            Container(
+              height: double.infinity,
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                padding: EdgeInsets.only(top: 300.0, left: 40.0, right: 40.0),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      'Sign Up',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'OpenSans',
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.bold,
                       ),
-                      SizedBox(height: 25.0),
-                      _buildEmailTF(),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      _buildPasswordTF(),
-                      _buildLoginBtn(),
-                      _buildSignInWithText(),
-                      _buildSocialBtnRow(),
-                      _buildSignupBtn(),
-                    ],
-                  ),
+                    ),
+                    SizedBox(height: 25.0),
+                    _buildEmailTF(),
+                    SizedBox(height: 10.0),
+                    _buildPasswordTF('Enter your Password'),
+                    SizedBox(height: 10.0),
+                    _buildPasswordTF('Confirm your Password'),
+                    _buildSignUpBtn(),
+                    _buildOrDivider(),
+                    _buildSocialBtnRow(),
+                    _buildBackToLoginBtn(),
+                  ],
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );
