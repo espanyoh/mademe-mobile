@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mademe/screens/login_screen.dart';
+import 'package:mademe/widget/drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -20,7 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
           Center(child: Text('Home Page!')),
         ],
       ),
-      drawer: Container(
+      drawer: AppDrawer(),
+      /*drawer: Container(
         width: 200.0,
         child: Drawer(
           child: ListView(
@@ -94,6 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+    */
     );
   }
 }
