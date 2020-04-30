@@ -4,11 +4,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mademe/model/category.dart';
 import 'package:mademe/screens/recipe_detail_screen.dart';
 import 'package:mademe/utilities/constants.dart';
+import 'package:mademe/widgets/drawer.dart';
 
 class HomeScreen extends StatelessWidget {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: AppDrawer(),
       body: Padding(
         padding: EdgeInsets.only(left: 20, top: 50, right: 20),
         child: Column(
@@ -17,9 +22,12 @@ class HomeScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                SvgPicture.asset("assets/icons/menu.svg"),
+                GestureDetector(
+                  child: SvgPicture.asset("assets/icons/menu.svg"),
+                  onTap: () => _scaffoldKey.currentState.openDrawer(),
+                ),
                 CircleAvatar(
-                  radius: 22.0,
+                  radius: 20.0,
                   backgroundImage: AssetImage('assets/temp/user.png'),
                 ),
               ],
