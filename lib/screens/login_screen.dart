@@ -11,6 +11,62 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Stack(
+          children: <Widget>[
+            Container(
+              height: double.infinity,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0xFF4B79A1),
+                    Color(0xFF283E51),
+                  ],
+                  stops: [0.1, 0.9],
+                ),
+              ),
+            ),
+            Container(
+              height: double.infinity,
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                padding: EdgeInsets.only(top: 360.0, left: 40.0, right: 40.0),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      'Log In',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'OpenSans',
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 25.0),
+                    _buildEmailTF(),
+                    SizedBox(height: 10.0),
+                    _buildPasswordTF(),
+                    _buildLoginBtn(),
+                    _buildOrDivider(),
+                    _buildSocialBtnRow(),
+                    _buildSignupBtn(),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -216,62 +272,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Stack(
-          children: <Widget>[
-            Container(
-              height: double.infinity,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xFF4B79A1),
-                    Color(0xFF283E51),
-                  ],
-                  stops: [0.1, 0.9],
-                ),
-              ),
-            ),
-            Container(
-              height: double.infinity,
-              child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                padding: EdgeInsets.only(top: 360.0, left: 40.0, right: 40.0),
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      'Log In',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'OpenSans',
-                        fontSize: 30.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 25.0),
-                    _buildEmailTF(),
-                    SizedBox(height: 10.0),
-                    _buildPasswordTF(),
-                    _buildLoginBtn(),
-                    _buildOrDivider(),
-                    _buildSocialBtnRow(),
-                    _buildSignupBtn(),
-                  ],
-                ),
-              ),
-            )
           ],
         ),
       ),
