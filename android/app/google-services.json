@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "434850524499",
+    "firebase_url": "https://meal-nation.firebaseio.com",
+    "project_id": "meal-nation",
+    "storage_bucket": "meal-nation.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:434850524499:android:734f3832f506d3cbc805a6",
+        "android_client_info": {
+          "package_name": "com.espanyoh.mademe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "434850524499-qf9k99danl2hbmfmanagsq4eln9186to.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuP9FyfvMzf9dCvNWI-eSlzLgwjYowYko"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "434850524499-qf9k99danl2hbmfmanagsq4eln9186to.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

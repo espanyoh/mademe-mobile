@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mademe/model/category.dart';
+import 'package:mademe/models/category.dart';
 import 'package:mademe/screens/recipe_detail_screen.dart';
-import 'package:mademe/utilities/constants.dart';
+import 'package:mademe/utilities/styles.dart';
 import 'package:mademe/widgets/drawer.dart';
 
 class HomeScreen extends StatelessWidget {

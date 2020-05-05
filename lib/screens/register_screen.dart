@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mademe/screens/login_screen.dart';
-import 'package:mademe/utilities/constants.dart';
+import 'package:mademe/utilities/styles.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override

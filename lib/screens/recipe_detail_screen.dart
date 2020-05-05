@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mademe/utilities/constants.dart';
+import 'package:mademe/utilities/styles.dart';
 
 class RecipeDetailScreen extends StatelessWidget {
   @override
