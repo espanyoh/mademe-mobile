@@ -1,3 +1,4 @@
+import 'package:mademe/services/cooking_plan_service.dart';
 import 'package:mademe/services/firebase_auth_service.dart';
 import 'package:mademe/services/firebase_storage_service.dart';
 import 'package:mademe/services/firestore_service.dart';
@@ -30,6 +31,9 @@ class AuthWidgetBuilder extends StatelessWidget {
               ),
               Provider<FirebaseStorageService>(
                 create: (_) => FirebaseStorageService(uid: user.uid),
+              ),
+              Provider<PlanService>(
+                create: (_) => PlanService(uid: user.uid),
               ),
             ],
             child: builder(context, snapshot),
