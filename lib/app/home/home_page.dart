@@ -1,10 +1,9 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mademe/app/home/about_page.dart';
 import 'package:mademe/common_widgets/avatar.dart';
 import 'package:mademe/models/avatar_reference.dart';
-import 'package:mademe/services/cooking_plan_service.dart';
+import 'package:mademe/services/plan_service.dart';
 import 'package:mademe/services/firebase_auth_service.dart';
 import 'package:mademe/services/firebase_storage_service.dart';
 import 'package:mademe/services/firestore_service.dart';
@@ -87,12 +86,6 @@ class HomePage extends StatelessWidget {
       ),
       body: Column(
         children: <Widget>[
-          Container(
-            color: Colors.redAccent,
-            width: 200.0,
-            height: 300.0,
-            child: Text('111111342'),
-          ),
           _buildPlanList(context: context),
         ],
       ),
@@ -119,29 +112,20 @@ class HomePage extends StatelessWidget {
 
 Widget _buildPlanList({BuildContext context}) {
   final planService = Provider.of<PlanService>(context, listen: false);
-  return StreamBuilder<QuerySnapshot>(
-    //StreamBuilder<List<Plan>>(
-    stream: planService.planStream(),
-    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-      if (snapshot.hasError)
-        return new Text('Error.....sy..: ${snapshot.error}');
-      if (!snapshot.hasData) return new Text('dont have data.....y..: ');
-      switch (snapshot.connectionState) {
-        case ConnectionState.waiting:
-          return new Text('Loading...');
-        default:
-          print(snapshot.data.documents.length);
-          print(snapshot.data.documents.map((doc) => print(doc.data)));
-          return new ListView(
-            shrinkWrap: true,
-            children: snapshot.data.documents.map((DocumentSnapshot doc) {
-              return new ListTile(
-                title: new Text(doc.data['title']),
-                subtitle: new Text(doc.data['description']),
-              );
-            }).toList(),
+  return StreamBuilder<List<Plan>>(
+    stream: planService.planListStream(),
+    builder: (BuildContext context, AsyncSnapshot<List<Plan>> plan) {
+      if (plan.hasError) return new Text('Error.....sy..: ${plan.error}');
+      if (!plan.hasData) return new Text('Loading....');
+      return new ListView(
+        shrinkWrap: true,
+        children: plan.data.map((Plan doc) {
+          return new ListTile(
+            title: new Text(doc.title),
+            subtitle: new Text(doc.description),
           );
-      }
+        }).toList(),
+      );
     },
   );
 }

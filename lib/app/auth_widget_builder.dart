@@ -1,4 +1,4 @@
-import 'package:mademe/services/cooking_plan_service.dart';
+import 'package:mademe/services/plan_service.dart';
 import 'package:mademe/services/firebase_auth_service.dart';
 import 'package:mademe/services/firebase_storage_service.dart';
 import 'package:mademe/services/firestore_service.dart';
