@@ -41,10 +41,10 @@ class HomePage extends StatelessWidget {
         // 2. Upload to storage
         final storage =
             Provider.of<FirebaseStorageService>(context, listen: false);
-        final downloadUrl = await storage.uploadAvatar(file: file);
+        final photoUrl = await storage.uploadAvatar(file: file);
         // 3. Save url to Firestore
         final database = Provider.of<FirestoreService>(context, listen: false);
-        await database.setAvatarReference(AvatarReference(downloadUrl));
+        await database.setAvatarReference(AvatarReference(photoUrl));
         // 4. (optional) delete local file as no longer needed
         await file.delete();
       }
@@ -87,6 +87,7 @@ class HomePage extends StatelessWidget {
       body: Column(
         children: <Widget>[
           _buildPlanList(context: context),
+          _buildPlan(context: context),
         ],
       ),
     );
@@ -99,7 +100,7 @@ class HomePage extends StatelessWidget {
       builder: (context, snapshot) {
         final avatarReference = snapshot.data;
         return Avatar(
-          photoUrl: avatarReference?.downloadUrl,
+          photoUrl: avatarReference?.photoUrl,
           radius: 50,
           borderColor: Colors.black54,
           borderWidth: 2.0,
@@ -115,7 +116,7 @@ Widget _buildPlanList({BuildContext context}) {
   return StreamBuilder<List<Plan>>(
     stream: planService.planListStream(),
     builder: (BuildContext context, AsyncSnapshot<List<Plan>> plan) {
-      if (plan.hasError) return new Text('Error.....sy..: ${plan.error}');
+      if (plan.hasError) return new Text('Error......: ${plan.error}');
       if (!plan.hasData) return new Text('Loading....');
       return new ListView(
         shrinkWrap: true,
@@ -126,6 +127,18 @@ Widget _buildPlanList({BuildContext context}) {
           );
         }).toList(),
       );
+    },
+  );
+}
+
+Widget _buildPlan({BuildContext context}) {
+  final planService = Provider.of<PlanService>(context, listen: false);
+  return StreamBuilder<Plan>(
+    stream: planService.planStream(),
+    builder: (BuildContext context, AsyncSnapshot<Plan> plan) {
+      if (plan.hasError) return new Text('Error.....: ${plan.error}');
+      if (!plan.hasData) return new Text('Loading....');
+      return Text('Active plan:' + plan.data.title);
     },
   );
 }

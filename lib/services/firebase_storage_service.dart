@@ -35,8 +35,8 @@ class FirebaseStorageService {
       throw snapshot.error;
     }
     // Url used to download file/image
-    final downloadUrl = await snapshot.ref.getDownloadURL();
-    print('downloadUrl: $downloadUrl');
-    return downloadUrl;
+    final photoUrl = await snapshot.ref.getPhotoUrl();
+    print('photoUrl: $photoUrl');
+    return photoUrl;
   }
 }

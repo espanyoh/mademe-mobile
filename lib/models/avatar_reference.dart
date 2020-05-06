@@ -1,21 +1,21 @@
 class AvatarReference {
-  AvatarReference(this.downloadUrl);
-  final String downloadUrl;
+  AvatarReference(this.photoUrl);
+  final String photoUrl;
 
   factory AvatarReference.fromMap(Map<String, dynamic> data) {
     if (data == null) {
       return null;
     }
-    final String downloadUrl = data['downloadUrl'];
-    if (downloadUrl == null) {
+    final String photoUrl = data['photoUrl'];
+    if (photoUrl == null) {
       return null;
     }
-    return AvatarReference(downloadUrl);
+    return AvatarReference(photoUrl);
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'downloadUrl': downloadUrl,
+      'photoUrl': photoUrl,
     };
   }
 }

@@ -51,7 +51,7 @@ class AboutPage extends StatelessWidget {
       builder: (context, snapshot) {
         final avatarReference = snapshot.data;
         return Avatar(
-          photoUrl: avatarReference?.downloadUrl,
+          photoUrl: avatarReference?.photoUrl,
           radius: 50,
           borderColor: Colors.black54,
           borderWidth: 2.0,

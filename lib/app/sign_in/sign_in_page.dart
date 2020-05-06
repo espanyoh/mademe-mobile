@@ -43,8 +43,12 @@ class _SignInPageState extends State<SignInPage> {
         setState(() => _error = "Please enter password");
         return;
       }
-      await auth.signInEmailPassword(
+      var user = await auth.signInEmailPassword(
           emailCtrl.value.text, passwordCtrl.value.text);
+      print(user);
+      if (user == null) {
+        setState(() => _error = "Fail to login");
+      }
     } catch (e) {
       print(e);
     }

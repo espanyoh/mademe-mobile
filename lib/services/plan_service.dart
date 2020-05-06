@@ -8,20 +8,36 @@ class PlanService {
   final String uid;
 
   Stream<Plan> planStream() {
-    final planCollection = Firestore.instance
+    final ref = Firestore.instance
         .collection('profiles/$uid/plans')
-        .document('QMBx6z4QHvCb6KKngqGR');
-    final ref = planCollection.snapshots();
-    return ref.map((snapshot) => Plan.fromMap(snapshot.data));
+        .where("active", isEqualTo: true)
+        .orderBy("created_at", descending: true);
+
+    final plan = ref.snapshots().map((snapshot) {
+      return snapshot.documents
+          .map((doc) {
+            final plan = Plan.fromSnapshot(doc);
+            if (plan.active == true) {
+              return plan;
+            }
+            return null;
+          })
+          .toList()
+          .first;
+    });
+    return plan;
   }
 
   Stream<List<Plan>> planListStream() {
     final planCollection = Firestore.instance
         .collection('profiles/$uid/plans')
-        .orderBy("created_at");
+        .orderBy("created_at", descending: true);
+
     return planCollection.snapshots().map((snapshot) {
-      return snapshot.documents.map((doc) => Plan.fromSnapshot(doc)).toList();
-    });
+      return snapshot.documents.map((doc) {
+        return Plan.fromSnapshot(doc);
+      }).toList();
+    }).asBroadcastStream();
   }
 }
 
@@ -29,8 +45,9 @@ class Plan {
   final String title;
   final String description;
   final String createdAt;
+  final bool active;
 
-  Plan(this.title, this.description, this.createdAt);
+  Plan(this.title, this.description, this.createdAt, this.active);
 
   factory Plan.fromMap(Map<String, dynamic> data) {
     if (data == null) {
@@ -39,13 +56,15 @@ class Plan {
     final String title = data['title'] ?? '';
     final String description = data['description'] ?? '';
     final String createdAt = data['createdAt'] ?? '';
-    return Plan(title, description, createdAt);
+    final bool active = data['active'] ?? false;
+    return Plan(title, description, createdAt, active);
   }
   static Plan fromSnapshot(DocumentSnapshot snap) {
     return Plan(
       snap.data['title'],
       snap.data['description'],
       snap.data['created_at'] ?? '',
+      snap.data['active'] ?? false,
     );
   }
 }
