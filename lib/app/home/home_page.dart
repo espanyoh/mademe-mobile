@@ -1,32 +1,11 @@
-import 'dart:async';
-
-import 'package:mademe/app/home/about_page.dart';
 import 'package:mademe/app/home/new_drawer.dart';
+import 'package:mademe/app/plan/plan_page.dart';
 import 'package:mademe/services/plan_service.dart';
-import 'package:mademe/services/firebase_auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
-  Future<void> _signOut(BuildContext context) async {
-    try {
-      final auth = Provider.of<FirebaseAuthService>(context, listen: false);
-      await auth.signOut();
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future<void> _onAbout(BuildContext context) async {
-    await Navigator.of(context).push(
-      MaterialPageRoute(
-        fullscreenDialog: true,
-        builder: (_) => AboutPage(),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +32,11 @@ class HomePage extends StatelessWidget {
               ),
             ],
           ),
-          _buildPlanList(context: context),
+          // _buildPlanList(context: context),
           _buildPlan(context: context),
+          // Expanded(
+          //   child: PlanHomePage(),
+          // ),
         ],
       ),
     );
@@ -88,7 +70,15 @@ Widget _buildPlan({BuildContext context}) {
     builder: (BuildContext context, AsyncSnapshot<Plan> plan) {
       if (plan.hasError) return new Text('Error.....: ${plan.error}');
       if (!plan.hasData) return new Text('Loading....');
-      return Text('Active plan:' + plan.data.title);
+      // return Container(
+      //   child: Text('Active plan:' + plan.data.title),
+      //   color: Colors.blue,
+      // );
+      return Expanded(
+        child: PlanHomePage(
+          plan: plan.data,
+        ),
+      );
     },
   );
 }
