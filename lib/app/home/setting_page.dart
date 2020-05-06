@@ -1,15 +1,18 @@
+import 'package:image_picker/image_picker.dart';
 import 'package:mademe/common_widgets/avatar.dart';
 import 'package:mademe/models/avatar_reference.dart';
+import 'package:mademe/services/firebase_storage_service.dart';
 import 'package:mademe/services/firestore_service.dart';
 import 'package:flutter/material.dart';
+import 'package:mademe/services/image_picker_service.dart';
 import 'package:provider/provider.dart';
 
-class AboutPage extends StatelessWidget {
+class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('About'),
+        title: Text('Setting'),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(130.0),
           child: Column(
@@ -25,13 +28,8 @@ class AboutPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Delicious menu helper',
+              'Underconstruction...',
               style: Theme.of(context).textTheme.headline,
-            ),
-            SizedBox(height: 32),
-            Text(
-              'by Espanyoh',
-              style: Theme.of(context).textTheme.title,
             ),
           ],
         ),
@@ -50,8 +48,31 @@ class AboutPage extends StatelessWidget {
           radius: 50,
           borderColor: Colors.black54,
           borderWidth: 2.0,
+          onPressed: () => _chooseAvatar(context),
         );
       },
     );
+  }
+
+  Future<void> _chooseAvatar(BuildContext context) async {
+    try {
+      // 1. Get image from picker
+      final imagePicker =
+          Provider.of<ImagePickerService>(context, listen: false);
+      final file = await imagePicker.pickImage(source: ImageSource.gallery);
+      if (file != null) {
+        // 2. Upload to storage
+        final storage =
+            Provider.of<FirebaseStorageService>(context, listen: false);
+        final photoUrl = await storage.uploadAvatar(file: file);
+        // 3. Save url to Firestore
+        final database = Provider.of<FirestoreService>(context, listen: false);
+        await database.setAvatarReference(AvatarReference(photoUrl));
+        // 4. (optional) delete local file as no longer needed
+        await file.delete();
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }

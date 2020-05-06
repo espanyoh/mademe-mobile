@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mademe/app/home/about_page.dart';
+import 'package:mademe/app/home/setting_page.dart';
 import 'package:mademe/common_widgets/avatar.dart';
 import 'package:mademe/models/avatar_reference.dart';
 import 'package:mademe/services/firebase_auth_service.dart';
@@ -32,7 +34,36 @@ class NewDrawer extends StatelessWidget {
                     icon: Icons.archive,
                     text: 'Plan archive',
                     context: context,
-                  )
+                  ),
+                  Divider(
+                    color: Colors.white38,
+                  ),
+                  _createDrawerItem(
+                    icon: Icons.settings,
+                    text: 'Setting',
+                    context: context,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          fullscreenDialog: true,
+                          builder: (_) => SettingPage(),
+                        ),
+                      );
+                    },
+                  ),
+                  _createDrawerItem(
+                    icon: Icons.info,
+                    text: 'About',
+                    context: context,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          fullscreenDialog: true,
+                          builder: (_) => AboutPage(),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               )),
           Expanded(
