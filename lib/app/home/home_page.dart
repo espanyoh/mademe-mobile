@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:mademe/app/home/about_page.dart';
+import 'package:mademe/app/home/new_drawer.dart';
 import 'package:mademe/common_widgets/avatar.dart';
 import 'package:mademe/models/avatar_reference.dart';
 import 'package:mademe/services/plan_service.dart';
@@ -13,6 +14,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   Future<void> _signOut(BuildContext context) async {
     try {
       final auth = Provider.of<FirebaseAuthService>(context, listen: false);
@@ -56,12 +59,10 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: NewDrawer(),
       appBar: AppBar(
         title: Text('Home'),
-        leading: IconButton(
-          icon: Icon(Icons.help),
-          onPressed: () => _onAbout(context),
-        ),
         actions: <Widget>[
           FlatButton(
             child: Text(

@@ -32,9 +32,6 @@ class AppDrawer extends StatelessWidget {
               text: 'About us',
               context: context,
             ),
-            SizedBox(
-              height: 140.0,
-            ),
             Divider(),
             _createDrawerItem(
               icon: Icons.exit_to_app,
