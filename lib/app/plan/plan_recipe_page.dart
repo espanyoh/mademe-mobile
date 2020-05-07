@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:mademe/services/plan_ingredient_service.dart';
+import 'package:mademe/services/plan_recipe_service.dart';
 import 'package:provider/provider.dart';
 
-class PlanIngredientPage extends StatelessWidget {
+class PlanRecipePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final pidService =
-        Provider.of<PlanIngredientService>(context, listen: false);
+    final prpService = Provider.of<PlanRecipeService>(context, listen: false);
     return Container(
-      child: StreamBuilder<List<PlanIngredient>>(
-        stream: pidService.planListStream(),
-        builder: (BuildContext context,
-            AsyncSnapshot<List<PlanIngredient>> snapshot) {
+      child: StreamBuilder<List<PlanRecipe>>(
+        stream: prpService.planListStream(),
+        builder:
+            (BuildContext context, AsyncSnapshot<List<PlanRecipe>> snapshot) {
           if (snapshot.hasError)
             return new Text('Error......: ${snapshot.error}');
           if (!snapshot.hasData) return new Text('Loading....');
           return new ListView(
             shrinkWrap: true,
-            children: snapshot.data.map((PlanIngredient doc) {
+            children: snapshot.data.map((PlanRecipe doc) {
               return new Card(
                 child: ListTile(
                   leading: doc.photos.length > 0

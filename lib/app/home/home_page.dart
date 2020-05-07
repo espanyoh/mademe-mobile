@@ -73,25 +73,34 @@ Widget _buildPlan({BuildContext context}) {
     builder: (BuildContext context, AsyncSnapshot<Plan> plan) {
       if (plan.hasError) return new Text('Error.....: ${plan.error}');
       if (!plan.hasData) return new Text('Loading....');
-      // return Container(
-      //   child: Text('Active plan:' + plan.data.title),
-      //   color: Colors.blue,
-      // );
+      print('..rebuild plan!');
+
       return Expanded(
         child: MultiProvider(
           providers: [
-            Provider(
-              create: (BuildContext context) => PlanIngredientService(
-                  uid: plan.data.uid, planID: plan.data.id),
+            Provider<PlanIngredientService>(
+              create: (BuildContext context) {
+                print(
+                    '...rebuild Plan Ingredient! (wait to fixed, then remove)');
+                return PlanIngredientService(
+                    uid: plan.data.uid, planID: plan.data.id);
+              },
             ),
-            Provider(
-              create: (BuildContext context) =>
-                  PlanRecipeService(uid: plan.data.uid, planID: plan.data.id),
+            Provider<PlanRecipeService>(
+              create: (_) {
+                print('...rebuild Plan recipe!');
+                return PlanRecipeService(
+                    uid: plan.data.uid, planID: plan.data.id);
+              },
             ),
             ChangeNotifierProvider<BottomNavigationBarProvider>(
-              create: (BuildContext context) => BottomNavigationBarProvider(),
+              create: (BuildContext context) {
+                print('...rebuild BottomNavigationBarProvider!');
+                return BottomNavigationBarProvider();
+              },
             ),
           ],
+          // child: Text('plan: ${plan.data.title}'),
           child: PlanHomePage(
             plan: plan.data,
           ),
