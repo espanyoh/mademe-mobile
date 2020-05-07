@@ -16,7 +16,8 @@ class PlanService {
     final plan = ref.snapshots().map((snapshot) {
       return snapshot.documents
           .map((doc) {
-            final plan = Plan.fromSnapshot(doc);
+            final plan = Plan.fromSnapshot(doc, uid);
+
             if (plan.active == true) {
               return plan;
             }
@@ -35,32 +36,38 @@ class PlanService {
 
     return planCollection.snapshots().map((snapshot) {
       return snapshot.documents.map((doc) {
-        return Plan.fromSnapshot(doc);
+        return Plan.fromSnapshot(doc, uid);
       }).toList();
     }).asBroadcastStream();
   }
 }
 
 class Plan {
+  final String id;
+  final String uid;
   final String title;
   final String description;
   final String createdAt;
   final bool active;
 
-  Plan(this.title, this.description, this.createdAt, this.active);
+  Plan(this.id, this.uid, this.title, this.description, this.createdAt,
+      this.active);
 
-  factory Plan.fromMap(Map<String, dynamic> data) {
-    if (data == null) {
-      return null;
-    }
-    final String title = data['title'] ?? '';
-    final String description = data['description'] ?? '';
-    final String createdAt = data['createdAt'] ?? '';
-    final bool active = data['active'] ?? false;
-    return Plan(title, description, createdAt, active);
-  }
-  static Plan fromSnapshot(DocumentSnapshot snap) {
+  // factory Plan.fromMap(Map<String, dynamic> data) {
+  //   if (data == null) {
+  //     return null;
+  //   }
+  //   final String id = "id";
+  //   final String title = data['title'] ?? '';
+  //   final String description = data['description'] ?? '';
+  //   final String createdAt = data['createdAt'] ?? '';
+  //   final bool active = data['active'] ?? false;
+  //   return Plan(id, title, description, createdAt, active);
+  // }
+  static Plan fromSnapshot(DocumentSnapshot snap, String uid) {
     return Plan(
+      snap.documentID,
+      uid,
       snap.data['title'],
       snap.data['description'],
       snap.data['created_at'] ?? '',
@@ -76,12 +83,12 @@ class Ingredient {
   String number;
 
   Ingredient(this.title, this.description);
-  factory Ingredient.fromMap(Map<String, dynamic> data) {
-    if (data == null) {
-      return null;
-    }
-    final String title = data['title'] ?? '';
-    final String description = data['description'] ?? '';
-    return Ingredient(title, description);
-  }
+  // factory Ingredient.fromMap(Map<String, dynamic> data) {
+  //   if (data == null) {
+  //     return null;
+  //   }
+  //   final String title = data['title'] ?? '';
+  //   final String description = data['description'] ?? '';
+  //   return Ingredient(title, description);
+  // }
 }

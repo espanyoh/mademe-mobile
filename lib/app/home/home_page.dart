@@ -1,5 +1,8 @@
 import 'package:mademe/app/home/new_drawer.dart';
 import 'package:mademe/app/plan/plan_page.dart';
+import 'package:mademe/services/navigation_bar_provider.dart';
+import 'package:mademe/services/plan_ingredient_service.dart';
+import 'package:mademe/services/plan_recipe_service.dart';
 import 'package:mademe/services/plan_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +35,7 @@ class HomePage extends StatelessWidget {
               ),
             ],
           ),
-          // _buildPlanList(context: context),
+          //_buildPlanList(context: context),
           _buildPlan(context: context),
           // Expanded(
           //   child: PlanHomePage(),
@@ -75,8 +78,23 @@ Widget _buildPlan({BuildContext context}) {
       //   color: Colors.blue,
       // );
       return Expanded(
-        child: PlanHomePage(
-          plan: plan.data,
+        child: MultiProvider(
+          providers: [
+            Provider(
+              create: (BuildContext context) => PlanIngredientService(
+                  uid: plan.data.uid, planID: plan.data.id),
+            ),
+            Provider(
+              create: (BuildContext context) =>
+                  PlanRecipeService(uid: plan.data.uid, planID: plan.data.id),
+            ),
+            ChangeNotifierProvider<BottomNavigationBarProvider>(
+              create: (BuildContext context) => BottomNavigationBarProvider(),
+            ),
+          ],
+          child: PlanHomePage(
+            plan: plan.data,
+          ),
         ),
       );
     },

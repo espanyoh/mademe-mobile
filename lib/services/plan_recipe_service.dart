@@ -3,33 +3,33 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class PlanIngredientService {
-  PlanIngredientService({@required this.uid, @required this.planID})
+class PlanRecipeService {
+  PlanRecipeService({@required this.uid, @required this.planID})
       : assert(uid != null, planID != null);
   final String uid;
   final String planID;
 
-  Stream<List<PlanIngredient>> planListStream() {
-    final planCollection = Firestore.instance
-        .collection('profiles/$uid/plans/$planID/ingredients');
+  Stream<List<PlanRecipe>> planListStream() {
+    final planCollection =
+        Firestore.instance.collection('profiles/$uid/plans/$planID/recipes');
 
     return planCollection.snapshots().map((snapshot) {
       return snapshot.documents.map((doc) {
-        return PlanIngredient.fromSnapshot(doc);
+        return PlanRecipe.fromSnapshot(doc);
       }).toList();
     }).asBroadcastStream();
   }
 }
 
-class PlanIngredient {
+class PlanRecipe {
   final String title;
   final String description;
   final List<String> photos;
   final String status;
 
-  PlanIngredient(this.title, this.description, this.photos, this.status);
+  PlanRecipe(this.title, this.description, this.photos, this.status);
 
-  factory PlanIngredient.fromMap(Map<String, dynamic> data) {
+  factory PlanRecipe.fromMap(Map<String, dynamic> data) {
     if (data == null) {
       return null;
     }
@@ -37,12 +37,12 @@ class PlanIngredient {
     final String description = data['description'] ?? '';
     final List<String> photos = data['photos'] ?? [];
     final String status = data['status'] ?? '';
-    return PlanIngredient(title, description, photos, status);
+    return PlanRecipe(title, description, photos, status);
   }
-  static PlanIngredient fromSnapshot(DocumentSnapshot snap) {
+  static PlanRecipe fromSnapshot(DocumentSnapshot snap) {
     List photoJson = snap.data['photos'];
     final photoArray = photoJson.map((f) => f.toString()).toList();
-    return PlanIngredient(
+    return PlanRecipe(
       snap.data['title'],
       snap.data['description'],
       photoArray ?? [],
