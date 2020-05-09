@@ -20,18 +20,45 @@ class PlanHomePage extends StatelessWidget {
     final navigatorBar = Provider.of<BottomNavigationBarProvider>(context);
 
     return Scaffold(
+      // backgroundColor: Color(0xFFE6DBDD),
       backgroundColor: Color(0xFFE6DBDD),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              children: <Widget>[Text(plan.title)],
-              mainAxisAlignment: MainAxisAlignment.center,
-            ),
-            navigatorBar.currentIndex == 1 ? PlanIngredientPage() : Text(''),
-            navigatorBar.currentIndex == 0 ? PlanRecipePage() : Text(''),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 0.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Find Your next meal",
+                        style: TextStyle(
+                            color: Colors.black54.withOpacity(0.8),
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text(
+                        plan.title,
+                        style: TextStyle(
+                            color: Colors.black26.withOpacity(0.8),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              navigatorBar.currentIndex == 1 ? PlanIngredientPage() : Text(''),
+              navigatorBar.currentIndex == 0 ? PlanRecipePage() : Text(''),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: _buildBottomNavBar(navigatorBar),
