@@ -28,6 +28,17 @@ class PlanRecipeService {
       'photos': recipe.photos,
       'created_at': Timestamp.now()
     });
+    recipe.ingredientIDs.forEach((ingredient) async {
+      var ingredientDoc =
+          Firestore.instance.collection('ingredients').document(ingredient);
+      ingredientDoc.get().then((onValue) async {
+        if (onValue.data != null) {
+          await Firestore.instance
+              .collection('profiles/$uid/plans/$planID/ingredients')
+              .add(onValue.data);
+        }
+      });
+    });
   }
 
   void removeRecipe(String planID, String recipeID) async {
