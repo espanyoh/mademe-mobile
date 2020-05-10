@@ -3,30 +3,30 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mademe/utilities/constants.dart';
 
-class SearchRecipeService {
-  Future<List<Recipe>> getRecipes() async {
-    List<Recipe> list = [];
+class SearchIngredientService {
+  Future<List<Ingredient>> getIngredients() async {
+    List<Ingredient> list = [];
     final cols = await Firestore.instance
-        .collection('recipes')
+        .collection('ingredients')
         .orderBy('photos')
         .limit(searchLimit)
         .getDocuments();
     cols.documents.forEach((doc) {
-      list.add(Recipe.fromMap(doc.data));
+      list.add(Ingredient.fromMap(doc.data));
     });
     return list;
   }
 }
 
-class Recipe {
+class Ingredient {
   final String title;
   final String description;
   final List<String> photos;
   final String status;
 
-  Recipe(this.title, this.description, this.photos, this.status);
+  Ingredient(this.title, this.description, this.photos, this.status);
 
-  factory Recipe.fromMap(Map<String, dynamic> data) {
+  factory Ingredient.fromMap(Map<String, dynamic> data) {
     if (data == null) {
       return null;
     }
@@ -37,12 +37,12 @@ class Recipe {
     final String description = data['description'] ?? '';
     final List<String> photos = photoArray ?? [];
     final String status = data['status'] ?? '';
-    return Recipe(title, description, photos, status);
+    return Ingredient(title, description, photos, status);
   }
-  static Recipe fromSnapshot(DocumentSnapshot snap) {
+  static Ingredient fromSnapshot(DocumentSnapshot snap) {
     List photoJson = snap.data['photos'];
     final photoArray = photoJson.map((f) => f.toString()).toList();
-    return Recipe(
+    return Ingredient(
       snap.data['title'],
       snap.data['description'],
       photoArray ?? [],

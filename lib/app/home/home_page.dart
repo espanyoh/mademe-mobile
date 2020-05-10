@@ -5,6 +5,7 @@ import 'package:mademe/services/plan_ingredient_service.dart';
 import 'package:mademe/services/plan_recipe_service.dart';
 import 'package:mademe/services/plan_service.dart';
 import 'package:flutter/material.dart';
+import 'package:mademe/services/search_ingredient_service.dart';
 import 'package:mademe/services/search_recipe_service.dart';
 import 'package:provider/provider.dart';
 
@@ -80,34 +81,19 @@ Widget _buildPlan({BuildContext context}) {
         child: MultiProvider(
           providers: [
             Provider<SearchRecipeService>(
-              create: (_) {
-                print('...rebuild SearchRecipeService!');
-                return new SearchRecipeService();
-              },
-            ),
+                create: (_) => new SearchRecipeService()),
+            Provider<SearchIngredientService>(
+                create: (_) => new SearchIngredientService()),
             Provider<PlanIngredientService>(
-              create: (BuildContext context) {
-                print(
-                    '...rebuild Plan Ingredient! (wait to fixed, then remove)');
-                return PlanIngredientService(
-                    uid: plan.data.uid, planID: plan.data.id);
-              },
-            ),
+                create: (BuildContext context) => PlanIngredientService(
+                    uid: plan.data.uid, planID: plan.data.id)),
             Provider<PlanRecipeService>(
-              create: (_) {
-                print('...rebuild Plan recipe!');
-                return PlanRecipeService(
-                    uid: plan.data.uid, planID: plan.data.id);
-              },
-            ),
+                create: (_) => PlanRecipeService(
+                    uid: plan.data.uid, planID: plan.data.id)),
             ChangeNotifierProvider<BottomNavigationBarProvider>(
-              create: (BuildContext context) {
-                print('...rebuild BottomNavigationBarProvider!');
-                return BottomNavigationBarProvider();
-              },
-            ),
+                create: (BuildContext context) =>
+                    BottomNavigationBarProvider()),
           ],
-          // child: Text('plan: ${plan.data.title}'),
           child: PlanHomePage(
             plan: plan.data,
           ),

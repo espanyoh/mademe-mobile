@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class ReceipeTile extends StatelessWidget {
+class PlanSearchTile extends StatelessWidget {
   final List<String> imgAssetPath;
   final String title;
   final String description;
-  ReceipeTile(
+  PlanSearchTile(
       {@required this.imgAssetPath,
       @required this.title,
       @required this.description});
