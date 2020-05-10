@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mademe/app/plan/widget_plan_list_tile.dart';
 import 'package:mademe/app/plan/widget_plan_search_tile.dart';
 import 'package:mademe/services/plan_recipe_service.dart';
+import 'package:mademe/services/plan_service.dart';
 import 'package:mademe/services/search_recipe_service.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +11,7 @@ class PlanRecipePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final planRecipeService =
         Provider.of<PlanRecipeService>(context, listen: false);
+    final planService = Provider.of<PlanService>(context, listen: false);
     final searchRecipeService =
         Provider.of<SearchRecipeService>(context, listen: false);
     return SingleChildScrollView(
@@ -18,7 +20,7 @@ class PlanRecipePage extends StatelessWidget {
           _buildSearchBar(searchRecipeService),
           _buildSearchResult(searchRecipeService),
           _buildListedTitle(),
-          _buildListedRecipe(planRecipeService),
+          _buildListedRecipe(planRecipeService, planService),
         ],
       ),
     );
@@ -105,11 +107,12 @@ class PlanRecipePage extends StatelessWidget {
     );
   }
 
-  Widget _buildListedRecipe(PlanRecipeService service) {
+  Widget _buildListedRecipe(
+      PlanRecipeService service, PlanService planService) {
     return Column(
       children: <Widget>[
         StreamBuilder<List<PlanRecipe>>(
-          stream: service.planListStream(),
+          stream: service.streamRecipes(planService.current.id),
           builder:
               (BuildContext context, AsyncSnapshot<List<PlanRecipe>> snapshot) {
             if (snapshot.hasError)

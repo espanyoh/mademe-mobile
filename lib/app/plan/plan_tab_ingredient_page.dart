@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mademe/app/plan/widget_plan_list_tile.dart';
 import 'package:mademe/services/plan_ingredient_service.dart';
+import 'package:mademe/services/plan_service.dart';
 import 'package:provider/provider.dart';
 
 class PlanIngredientPage extends StatelessWidget {
@@ -8,11 +9,12 @@ class PlanIngredientPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final planIngredientService =
         Provider.of<PlanIngredientService>(context, listen: false);
+    final planService = Provider.of<PlanService>(context, listen: false);
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
           _buildListedTitle(),
-          _buildListedIngredient(planIngredientService),
+          _buildListedIngredient(planIngredientService, planService),
         ],
       ),
     );
@@ -41,11 +43,12 @@ class PlanIngredientPage extends StatelessWidget {
     );
   }
 
-  Widget _buildListedIngredient(PlanIngredientService service) {
+  Widget _buildListedIngredient(
+      PlanIngredientService service, PlanService planService) {
     return Column(
       children: <Widget>[
         StreamBuilder<List<PlanIngredient>>(
-          stream: service.planListStream(),
+          stream: service.streamIngredients(planService.current.id),
           builder: (BuildContext context,
               AsyncSnapshot<List<PlanIngredient>> snapshot) {
             if (snapshot.hasError)

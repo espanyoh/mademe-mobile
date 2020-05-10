@@ -5,7 +5,6 @@ import 'package:mademe/services/plan_ingredient_service.dart';
 import 'package:mademe/services/plan_recipe_service.dart';
 import 'package:mademe/services/plan_service.dart';
 import 'package:flutter/material.dart';
-import 'package:mademe/services/search_ingredient_service.dart';
 import 'package:mademe/services/search_recipe_service.dart';
 import 'package:provider/provider.dart';
 
@@ -39,34 +38,31 @@ class HomePage extends StatelessWidget {
           ),
           //_buildPlanList(context: context),
           _buildPlan(context: context),
-          // Expanded(
-          //   child: PlanHomePage(),
-          // ),
         ],
       ),
     );
   }
 }
 
-Widget _buildPlanList({BuildContext context}) {
-  final planService = Provider.of<PlanService>(context, listen: false);
-  return StreamBuilder<List<Plan>>(
-    stream: planService.planListStream(),
-    builder: (BuildContext context, AsyncSnapshot<List<Plan>> plan) {
-      if (plan.hasError) return new Text('Error......: ${plan.error}');
-      if (!plan.hasData) return new Text('Loading....');
-      return new ListView(
-        shrinkWrap: true,
-        children: plan.data.map((Plan doc) {
-          return new ListTile(
-            title: new Text(doc.title),
-            subtitle: new Text(doc.description),
-          );
-        }).toList(),
-      );
-    },
-  );
-}
+// Widget _buildPlanList({BuildContext context}) {
+//   final planService = Provider.of<PlanService>(context, listen: false);
+//   return StreamBuilder<List<Plan>>(
+//     stream: planService.planListStream(),
+//     builder: (BuildContext context, AsyncSnapshot<List<Plan>> plan) {
+//       if (plan.hasError) return new Text('Error......: ${plan.error}');
+//       if (!plan.hasData) return new Text('Loading....');
+//       return new ListView(
+//         shrinkWrap: true,
+//         children: plan.data.map((Plan doc) {
+//           return new ListTile(
+//             title: new Text(doc.title),
+//             subtitle: new Text(doc.description),
+//           );
+//         }).toList(),
+//       );
+//     },
+//   );
+// }
 
 Widget _buildPlan({BuildContext context}) {
   final planService = Provider.of<PlanService>(context, listen: false);
@@ -83,11 +79,10 @@ Widget _buildPlan({BuildContext context}) {
             ChangeNotifierProvider<SearchRecipeService>(
                 create: (_) => new SearchRecipeService(null)),
             Provider<PlanIngredientService>(
-                create: (BuildContext context) => PlanIngredientService(
-                    uid: plan.data.uid, planID: plan.data.id)),
+                create: (BuildContext context) =>
+                    PlanIngredientService(uid: plan.data.uid)),
             Provider<PlanRecipeService>(
-                create: (_) => PlanRecipeService(
-                    uid: plan.data.uid, planID: plan.data.id)),
+                create: (_) => PlanRecipeService(uid: plan.data.uid)),
             ChangeNotifierProvider<BottomNavigationBarProvider>(
                 create: (BuildContext context) =>
                     BottomNavigationBarProvider()),

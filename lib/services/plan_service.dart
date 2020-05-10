@@ -6,19 +6,21 @@ import 'package:flutter/material.dart';
 class PlanService {
   PlanService({@required this.uid}) : assert(uid != null);
   final String uid;
+  Plan current;
 
   Stream<Plan> planStream() {
     final ref = Firestore.instance
         .collection('profiles/$uid/plans')
         .where("active", isEqualTo: true)
-        .orderBy("created_at", descending: true);
+        .orderBy("created_at", descending: true)
+        .limit(1);
 
     final plan = ref.snapshots().map((snapshot) {
       return snapshot.documents
           .map((doc) {
             final plan = Plan.fromSnapshot(doc, uid);
-
             if (plan.active == true) {
+              this.current = plan;
               return plan;
             }
             return null;

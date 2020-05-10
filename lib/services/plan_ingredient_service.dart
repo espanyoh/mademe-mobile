@@ -4,12 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class PlanIngredientService {
-  PlanIngredientService({@required this.uid, @required this.planID})
-      : assert(uid != null, planID != null);
+  PlanIngredientService({@required this.uid}) : assert(uid != null);
   final String uid;
-  final String planID;
 
-  Stream<List<PlanIngredient>> planListStream() {
+  Stream<List<PlanIngredient>> streamIngredients(String planID) {
     final planCollection = Firestore.instance
         .collection('profiles/$uid/plans/$planID/ingredients');
 
