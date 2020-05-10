@@ -1,9 +1,33 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:mademe/utilities/constants.dart';
 
-class SearchRecipeService {
+class SearchRecipeService with ChangeNotifier {
+  List<Recipe> recipeResult = new List<Recipe>();
+  SearchRecipeService(recipeResult) {
+    if (recipeResult == null) {
+      this.recipeResult = new List<Recipe>();
+      return;
+    }
+    this.recipeResult = recipeResult;
+  }
+
+  void search(String keyword) async {
+    recipeResult = new List<Recipe>();
+    var query = Firestore.instance.collection('recipes').orderBy('photos');
+    if (keyword != null) {
+      query = query.where("tags", arrayContains: keyword);
+    }
+    final cols = await query.limit(searchLimit).getDocuments();
+
+    cols.documents.forEach((doc) {
+      this.recipeResult.add(Recipe.fromMap(doc.data));
+    });
+    notifyListeners();
+  }
+
   Future<List<Recipe>> getRecipes() async {
     List<Recipe> list = [];
     final cols = await Firestore.instance

@@ -80,10 +80,8 @@ Widget _buildPlan({BuildContext context}) {
       return Expanded(
         child: MultiProvider(
           providers: [
-            Provider<SearchRecipeService>(
-                create: (_) => new SearchRecipeService()),
-            Provider<SearchIngredientService>(
-                create: (_) => new SearchIngredientService()),
+            ChangeNotifierProvider<SearchRecipeService>(
+                create: (_) => new SearchRecipeService(null)),
             Provider<PlanIngredientService>(
                 create: (BuildContext context) => PlanIngredientService(
                     uid: plan.data.uid, planID: plan.data.id)),
