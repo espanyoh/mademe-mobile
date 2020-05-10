@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:mademe/services/plan_recipe_service.dart';
+import 'package:mademe/services/plan_service.dart';
+import 'package:provider/provider.dart';
 
 class PlanReceipeTile extends StatelessWidget {
-  final List<String> imgAssetPath;
+  final String id;
   final String title;
   final String description;
+  final List<String> imgAssetPath;
   PlanReceipeTile(
       {@required this.imgAssetPath,
+      @required this.id,
       @required this.title,
       @required this.description});
 
   @override
   Widget build(BuildContext context) {
+    final planRecipeService =
+        Provider.of<PlanRecipeService>(context, listen: false);
+    final planService = Provider.of<PlanService>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: GestureDetector(
@@ -38,9 +46,12 @@ class PlanReceipeTile extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    title,
-                    style: TextStyle(color: Color(0xffFC9535), fontSize: 19),
+                  Container(
+                    width: 180.0,
+                    child: Text(title,
+                        style:
+                            TextStyle(color: Color(0xffFC9535), fontSize: 19),
+                        overflow: TextOverflow.ellipsis),
                   ),
                   SizedBox(
                     height: 2,
@@ -49,9 +60,7 @@ class PlanReceipeTile extends StatelessWidget {
                     width: 170.0,
                     child: Text(
                       description,
-                      style: TextStyle(
-                        fontSize: 11,
-                      ),
+                      style: TextStyle(fontSize: 11),
                       overflow: TextOverflow.ellipsis,
                     ),
                   )
@@ -59,22 +68,14 @@ class PlanReceipeTile extends StatelessWidget {
               ),
               Spacer(),
               Container(
-                // padding: EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-                // decoration: BoxDecoration(
-                //     color: Color(0xffFBB97C),
-                //     borderRadius: BorderRadius.circular(15)),
                 child: IconButton(
                   icon: Icon(Icons.remove_circle),
                   color: Colors.redAccent,
-                  onPressed: () => print('remove'),
+                  onPressed: () {
+                    planRecipeService.removeRecipe(
+                        planService.current.id, this.id);
+                  },
                 ),
-                // Text(
-                //   "Remove",
-                //   style: TextStyle(
-                //       color: Colors.white,
-                //       fontSize: 13,
-                //       fontWeight: FontWeight.w500),
-                // ),
               )
             ],
           ),

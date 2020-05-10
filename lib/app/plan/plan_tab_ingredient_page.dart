@@ -63,6 +63,7 @@ class PlanIngredientPage extends StatelessWidget {
               children: snapshot.data.map((PlanIngredient doc) {
                 //change name here
                 return PlanReceipeTile(
+                  id: "temp-later create it's own tile",
                   title: doc.title,
                   description: doc.description,
                   imgAssetPath: doc.photos,

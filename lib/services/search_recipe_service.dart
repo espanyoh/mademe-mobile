@@ -46,9 +46,11 @@ class Recipe {
   final String title;
   final String description;
   final List<String> photos;
+  final List<String> ingredientIDs;
   final String status;
 
-  Recipe(this.title, this.description, this.photos, this.status);
+  Recipe(this.title, this.description, this.photos, this.ingredientIDs,
+      this.status);
 
   factory Recipe.fromMap(Map<String, dynamic> data) {
     if (data == null) {
@@ -57,19 +59,26 @@ class Recipe {
     List photoJson = data['photos'] ?? [];
     final photoArray = photoJson.map((f) => f.toString()).toList();
 
+    List ingredientJson = data['ingredientIDs'] ?? [];
+    final ingredientArray = ingredientJson.map((f) => f.toString()).toList();
+
     final String title = data['title'] ?? '';
     final String description = data['description'] ?? '';
     final List<String> photos = photoArray ?? [];
+    final List<String> ingredientIDs = ingredientArray ?? [];
     final String status = data['status'] ?? '';
-    return Recipe(title, description, photos, status);
+    return Recipe(title, description, photos, ingredientIDs, status);
   }
   static Recipe fromSnapshot(DocumentSnapshot snap) {
     List photoJson = snap.data['photos'];
     final photoArray = photoJson.map((f) => f.toString()).toList();
+    List ingredientJson = snap.data['ingredientIDs'];
+    final ingredientArray = ingredientJson.map((f) => f.toString()).toList();
     return Recipe(
       snap.data['title'],
       snap.data['description'],
       photoArray ?? [],
+      ingredientArray ?? [],
       snap.data['status'] ?? '',
     );
   }

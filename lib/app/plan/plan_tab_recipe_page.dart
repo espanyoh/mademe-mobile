@@ -73,9 +73,7 @@ class PlanRecipePage extends StatelessWidget {
             itemCount: service.recipeResult.length,
             itemBuilder: (context, index) {
               return PlanSearchTile(
-                title: result[index].title,
-                description: result[index].description,
-                imgAssetPath: result[index].photos,
+                recipe: result[index],
               );
             },
           ),
@@ -109,33 +107,30 @@ class PlanRecipePage extends StatelessWidget {
 
   Widget _buildListedRecipe(
       PlanRecipeService service, PlanService planService) {
-    return Column(
-      children: <Widget>[
-        StreamBuilder<List<PlanRecipe>>(
-          stream: service.streamRecipes(planService.current.id),
-          builder:
-              (BuildContext context, AsyncSnapshot<List<PlanRecipe>> snapshot) {
-            if (snapshot.hasError)
-              return new Text('Error......: ${snapshot.error}');
-            if (!snapshot.hasData) return new Text('Loading....');
+    return StreamBuilder<List<PlanRecipe>>(
+      stream: service.streamRecipes(planService.current.id),
+      builder:
+          (BuildContext context, AsyncSnapshot<List<PlanRecipe>> snapshot) {
+        if (snapshot.hasError)
+          return new Text('Error......: ${snapshot.error}');
+        if (!snapshot.hasData) return new Text('Loading....');
 
-            return new ListView(
-              padding: EdgeInsets.zero,
-              shrinkWrap: true,
-              physics: ClampingScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              children: snapshot.data.map((PlanRecipe doc) {
-                //change name here
-                return PlanReceipeTile(
-                  title: doc.title,
-                  description: doc.description,
-                  imgAssetPath: doc.photos,
-                );
-              }).toList(),
+        return new ListView(
+          padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          physics: ClampingScrollPhysics(),
+          scrollDirection: Axis.vertical,
+          children: snapshot.data.map((PlanRecipe doc) {
+            //change name here
+            return PlanReceipeTile(
+              id: doc.id,
+              title: doc.title,
+              description: doc.description,
+              imgAssetPath: doc.photos,
             );
-          },
-        ),
-      ],
+          }).toList(),
+        );
+      },
     );
   }
 }

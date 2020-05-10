@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:mademe/services/plan_recipe_service.dart';
+import 'package:mademe/services/plan_service.dart';
+import 'package:mademe/services/search_recipe_service.dart';
+import 'package:provider/provider.dart';
 
 class PlanSearchTile extends StatelessWidget {
-  final List<String> imgAssetPath;
-  final String title;
-  final String description;
-  PlanSearchTile(
-      {@required this.imgAssetPath,
-      @required this.title,
-      @required this.description});
+  final Recipe recipe;
+  PlanSearchTile({@required this.recipe});
 
   @override
   Widget build(BuildContext context) {
+    final planRecipeService =
+        Provider.of<PlanRecipeService>(context, listen: false);
+    final planService = Provider.of<PlanService>(context, listen: false);
+
     return Container(
-      // width: 150,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
       padding: EdgeInsets.only(top: 5.0),
       child: Column(
@@ -34,10 +36,10 @@ class PlanSearchTile extends StatelessWidget {
                     children: <Widget>[
                       Center(
                         child: Hero(
-                          tag: 'heroID-$title',
-                          child: imgAssetPath.length > 0
+                          tag: 'heroID-${recipe.title}',
+                          child: recipe.photos.length > 0
                               ? Image.network(
-                                  imgAssetPath[0],
+                                  recipe.photos[0],
                                   fit: BoxFit.fitHeight,
                                   height: 160.0,
                                   width: 160.0,
@@ -52,7 +54,7 @@ class PlanSearchTile extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              title,
+                              recipe.title,
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 15.0,
@@ -86,7 +88,10 @@ class PlanSearchTile extends StatelessWidget {
                     color: Colors.white,
                     size: 20.0,
                   ),
-                  onPressed: () => print('Add to plan'),
+                  onPressed: () {
+                    planRecipeService.addRecipe(
+                        planService.current.id, this.recipe);
+                  },
                 ),
               ),
             ],
