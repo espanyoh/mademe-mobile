@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:elastic_client/console_http_transport.dart';
+import 'package:elastic_client/elastic_client.dart' as elastic;
 import 'package:flutter/material.dart';
 import 'package:mademe/utilities/constants.dart';
 
@@ -40,6 +42,26 @@ class SearchRecipeService with ChangeNotifier {
     });
     return list;
   }
+
+  Future<void> searchElastic(String keyword) async {
+    print('searchElastic...:' + keyword);
+    final transport = ConsoleHttpTransport(
+        Uri.parse(
+            'https://7b543b21eb66462c9e8d952474d6479f.asia-southeast1.gcp.elastic-cloud.com:9243/'),
+        basicAuth: BasicAuth("gcpf", "espany9h1"));
+    final client = elastic.Client(transport);
+    final rs = await client.search(
+        'mademe', 'recipes', elastic.Query.term('tags', [keyword]),
+        source: true);
+    this.recipeResult = new List<Recipe>();
+    if (rs.totalCount > 0) {
+      rs.hits.forEach((data) {
+        this.recipeResult.add(Recipe.fromElasticSearch(data.doc));
+      });
+    }
+    await transport.close();
+    notifyListeners();
+  }
 }
 
 class Recipe {
@@ -69,6 +91,25 @@ class Recipe {
     final String status = data['status'] ?? '';
     return Recipe(title, description, photos, ingredientIDs, status);
   }
+
+  factory Recipe.fromElasticSearch(Map<String, dynamic> data) {
+    if (data == null) {
+      return null;
+    }
+    List photoJson = data['photos'] ?? [];
+    final photoArray = photoJson.map((f) => f.toString()).toList();
+
+    List ingredientJson = data['ingredientIDs'] ?? [];
+    final ingredientArray = ingredientJson.map((f) => f.toString()).toList();
+
+    final String title = data['title'] ?? '';
+    final String description = data['description'] ?? '';
+    final List<String> photos = photoArray ?? [];
+    final List<String> ingredientIDs = ingredientArray ?? [];
+    final String status = data['status'] ?? '';
+    return Recipe(title, description, photos, ingredientIDs, status);
+  }
+
   static Recipe fromSnapshot(DocumentSnapshot snap) {
     List photoJson = snap.data['photos'];
     final photoArray = photoJson.map((f) => f.toString()).toList();

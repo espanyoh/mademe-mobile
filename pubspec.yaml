@@ -28,6 +28,7 @@ dependencies:
   image_picker: ^0.6.2+3
   camera: ^0.5.7+2
   ff_navigation_bar:
+  elastic_client: ^0.1.10
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

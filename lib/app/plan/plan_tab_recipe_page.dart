@@ -43,7 +43,7 @@ class PlanRecipePage extends StatelessWidget {
             width: 220.0,
             child: TextField(
               onSubmitted: (value) {
-                service.search(value);
+                service.searchElastic(value);
               },
               style: TextStyle(
                 color: Colors.black45,

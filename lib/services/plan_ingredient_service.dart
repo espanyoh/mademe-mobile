@@ -38,11 +38,11 @@ class PlanIngredient {
     return PlanIngredient(title, description, photos, status);
   }
   static PlanIngredient fromSnapshot(DocumentSnapshot snap) {
-    List photoJson = snap.data['photos'];
+    List photoJson = snap.data['photos'] ?? [""];
     final photoArray = photoJson.map((f) => f.toString()).toList();
     return PlanIngredient(
-      snap.data['title'],
-      snap.data['description'],
+      snap.data['title'] ?? '-',
+      snap.data['description'] ?? '-',
       photoArray ?? [],
       snap.data['status'] ?? '',
     );
