@@ -20,20 +20,20 @@ class PlanRecipeService {
   }
 
   void addRecipe(String planID, Recipe recipe) async {
-    await Firestore.instance
-        .collection('profiles/$uid/plans/$planID/recipes')
-        .add({
-      'title': recipe.title,
-      'description': recipe.description,
-      'photos': recipe.photos,
-      'created_at': Timestamp.now()
+    var rawRecipe =
+        Firestore.instance.collection('recipes').document(recipe.id);
+    rawRecipe.get().then((doc) {
+      Firestore.instance
+          .collection('profiles/$uid/plans/$planID/recipes')
+          .add(doc.data);
     });
+
     recipe.ingredientIDs.forEach((ingredient) async {
       var ingredientDoc =
           Firestore.instance.collection('ingredients').document(ingredient);
-      ingredientDoc.get().then((onValue) async {
+      ingredientDoc.get().then((onValue) {
         if (onValue.data != null) {
-          await Firestore.instance
+          Firestore.instance
               .collection('profiles/$uid/plans/$planID/ingredients')
               .add(onValue.data);
         }

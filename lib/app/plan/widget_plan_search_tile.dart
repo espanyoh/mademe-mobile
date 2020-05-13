@@ -89,8 +89,7 @@ class PlanSearchTile extends StatelessWidget {
                     size: 20.0,
                   ),
                   onPressed: () {
-                    planRecipeService.addRecipe(
-                        planService.current.id, this.recipe);
+                    planRecipeService.addRecipe(planService.current.id, recipe);
                   },
                 ),
               ),

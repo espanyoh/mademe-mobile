@@ -16,32 +16,32 @@ class SearchRecipeService with ChangeNotifier {
     this.recipeResult = recipeResult;
   }
 
-  void search(String keyword) async {
-    recipeResult = new List<Recipe>();
-    var query = Firestore.instance.collection('recipes').orderBy('photos');
-    if (keyword != null) {
-      query = query.where("tags", arrayContains: keyword);
-    }
-    final cols = await query.limit(searchLimit).getDocuments();
+  // void search(String keyword) async {
+  //   recipeResult = new List<Recipe>();
+  //   var query = Firestore.instance.collection('recipes').orderBy('photos');
+  //   if (keyword != null) {
+  //     query = query.where("tags", arrayContains: keyword);
+  //   }
+  //   final cols = await query.limit(searchLimit).getDocuments();
 
-    cols.documents.forEach((doc) {
-      this.recipeResult.add(Recipe.fromMap(doc.data));
-    });
-    notifyListeners();
-  }
+  //   cols.documents.forEach((doc) {
+  //     this.recipeResult.add(Recipe.fromMap(doc.data));
+  //   });
+  //   notifyListeners();
+  // }
 
-  Future<List<Recipe>> getRecipes() async {
-    List<Recipe> list = [];
-    final cols = await Firestore.instance
-        .collection('recipes')
-        .orderBy('photos')
-        .limit(searchLimit)
-        .getDocuments();
-    cols.documents.forEach((doc) {
-      list.add(Recipe.fromMap(doc.data));
-    });
-    return list;
-  }
+  // Future<List<Recipe>> getRecipes() async {
+  //   List<Recipe> list = [];
+  //   final cols = await Firestore.instance
+  //       .collection('recipes')
+  //       .orderBy('photos')
+  //       .limit(searchLimit)
+  //       .getDocuments();
+  //   cols.documents.forEach((doc) {
+  //     list.add(Recipe.fromMap(doc.data));
+  //   });
+  //   return list;
+  // }
 
   Future<void> searchElastic(String keyword) async {
     print('searchElastic...:' + keyword);
@@ -56,7 +56,7 @@ class SearchRecipeService with ChangeNotifier {
     this.recipeResult = new List<Recipe>();
     if (rs.totalCount > 0) {
       rs.hits.forEach((data) {
-        this.recipeResult.add(Recipe.fromElasticSearch(data.doc));
+        this.recipeResult.add(Recipe.fromElasticSearch(data.id, data.doc));
       });
     }
     await transport.close();
@@ -65,16 +65,36 @@ class SearchRecipeService with ChangeNotifier {
 }
 
 class Recipe {
+  final String id;
   final String title;
   final String description;
   final List<String> photos;
   final List<String> ingredientIDs;
   final String status;
 
-  Recipe(this.title, this.description, this.photos, this.ingredientIDs,
+  Recipe(this.id, this.title, this.description, this.photos, this.ingredientIDs,
       this.status);
 
-  factory Recipe.fromMap(Map<String, dynamic> data) {
+  // factory Recipe.fromMap(Map<String, dynamic> data) {
+  //   if (data == null) {
+  //     return null;
+  //   }
+  //   List photoJson = data['photos'] ?? [];
+  //   final photoArray = photoJson.map((f) => f.toString()).toList();
+
+  //   List ingredientJson = data['ingredientIDs'] ?? [];
+  //   final ingredientArray = ingredientJson.map((f) => f.toString()).toList();
+
+  //   final String id = 'fake';
+  //   final String title = data['title'] ?? '';
+  //   final String description = data['description'] ?? '';
+  //   final List<String> photos = photoArray ?? [];
+  //   final List<String> ingredientIDs = ingredientArray ?? [];
+  //   final String status = data['status'] ?? '';
+  //   return Recipe(id, title, description, photos, ingredientIDs, status);
+  // }
+
+  factory Recipe.fromElasticSearch(String id, Map<String, dynamic> data) {
     if (data == null) {
       return null;
     }
@@ -89,25 +109,7 @@ class Recipe {
     final List<String> photos = photoArray ?? [];
     final List<String> ingredientIDs = ingredientArray ?? [];
     final String status = data['status'] ?? '';
-    return Recipe(title, description, photos, ingredientIDs, status);
-  }
-
-  factory Recipe.fromElasticSearch(Map<String, dynamic> data) {
-    if (data == null) {
-      return null;
-    }
-    List photoJson = data['photos'] ?? [];
-    final photoArray = photoJson.map((f) => f.toString()).toList();
-
-    List ingredientJson = data['ingredientIDs'] ?? [];
-    final ingredientArray = ingredientJson.map((f) => f.toString()).toList();
-
-    final String title = data['title'] ?? '';
-    final String description = data['description'] ?? '';
-    final List<String> photos = photoArray ?? [];
-    final List<String> ingredientIDs = ingredientArray ?? [];
-    final String status = data['status'] ?? '';
-    return Recipe(title, description, photos, ingredientIDs, status);
+    return Recipe(id, title, description, photos, ingredientIDs, status);
   }
 
   static Recipe fromSnapshot(DocumentSnapshot snap) {
@@ -116,6 +118,7 @@ class Recipe {
     List ingredientJson = snap.data['ingredientIDs'];
     final ingredientArray = ingredientJson.map((f) => f.toString()).toList();
     return Recipe(
+      snap.documentID,
       snap.data['title'],
       snap.data['description'],
       photoArray ?? [],
