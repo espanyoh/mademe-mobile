@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mademe/app/recipe/recipe_detail_page.dart';
+import 'package:mademe/models/recipe_preview_model.dart';
 import 'package:mademe/services/plan_recipe_service.dart';
 import 'package:mademe/services/plan_service.dart';
-import 'package:mademe/services/search_recipe_service.dart';
+import 'package:mademe/services/recipes/search_recipe_service.dart';
 import 'package:provider/provider.dart';
 
 class PlanReceipeTile extends StatelessWidget {
@@ -21,18 +22,21 @@ class PlanReceipeTile extends StatelessWidget {
     final planRecipeService =
         Provider.of<PlanRecipeService>(context, listen: false);
     final planService = Provider.of<PlanService>(context, listen: false);
+
+    final searchRecipeService =
+        Provider.of<SearchRecipeService>(context, listen: false);
     final recipePreviewInput =
-        new RecipePreview(id, title, description, imgAssetPath, [], "");
+        new RecipePreviewModel(id, title, description, imgAssetPath, [], "");
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: GestureDetector(
-        onTap: () {
-          // recipePreviewInput.ingredientIDs =
+        onTap: () async {
+          var detail = await searchRecipeService.getRecipeDetail(id);
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => RecipeDetail(
-                        recipePreview: recipePreviewInput,
+                        recipeDetail: detail,
                       )));
         },
         child: Container(

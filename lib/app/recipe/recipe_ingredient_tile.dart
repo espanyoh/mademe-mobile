@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mademe/models/recipe_detail_model.dart';
 
 class RecipeIngredientTile extends StatelessWidget {
-  final String photo;
-  final String title;
+  // final String photo;
+  // final String title;
+  final Ingredient ingredient;
 
-  RecipeIngredientTile({@required this.photo, @required this.title});
+  RecipeIngredientTile({@required this.ingredient});
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +32,9 @@ class RecipeIngredientTile extends StatelessWidget {
                     children: <Widget>[
                       Center(
                         child: Hero(
-                          tag: 'heroID-$title',
+                          tag: 'heroID-${ingredient.title}',
                           child: Image.network(
-                            photo,
+                            ingredient.photo,
                             fit: BoxFit.fitHeight,
                             height: 60.0,
                             width: 60.0,
@@ -46,7 +48,7 @@ class RecipeIngredientTile extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              title,
+                              ingredient.title,
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 7.0,

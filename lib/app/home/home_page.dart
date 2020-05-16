@@ -5,7 +5,7 @@ import 'package:mademe/services/plan_ingredient_service.dart';
 import 'package:mademe/services/plan_recipe_service.dart';
 import 'package:mademe/services/plan_service.dart';
 import 'package:flutter/material.dart';
-import 'package:mademe/services/search_recipe_service.dart';
+import 'package:mademe/services/recipes/search_recipe_service.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:mademe/services/search_recipe_service.dart';
+import 'package:mademe/models/recipe_preview_model.dart';
 
 class PlanRecipeService {
   PlanRecipeService({@required this.uid}) : assert(uid != null);
@@ -19,7 +19,7 @@ class PlanRecipeService {
     }).asBroadcastStream();
   }
 
-  void addRecipe(String planID, RecipePreview recipe) async {
+  void addRecipe(String planID, RecipePreviewModel recipe) async {
     var rawRecipe =
         Firestore.instance.collection('recipes').document(recipe.id);
     rawRecipe.get().then((doc) {
@@ -58,23 +58,23 @@ class PlanRecipe {
 
   PlanRecipe(this.id, this.title, this.description, this.photos, this.status);
 
-  factory PlanRecipe.fromMap(Map<String, dynamic> data) {
-    if (data == null) {
-      return null;
-    }
-    final String id = "xxx";
-    final String title = data['title'] ?? '';
-    final String description = data['description'] ?? '';
-    final List<String> photos = data['photos'] ?? [];
-    final String status = data['status'] ?? '';
-    return PlanRecipe(id, title, description, photos, status);
-  }
+  // factory PlanRecipe.fromMap(Map<String, dynamic> data) {
+  //   if (data == null) {
+  //     return null;
+  //   }
+  //   final String id = "xxx";
+  //   final String title = data['title'] ?? '';
+  //   final String description = data['description'] ?? '';
+  //   final List<String> photos = data['photos'] ?? [];
+  //   final String status = data['status'] ?? '';
+  //   return PlanRecipe(id, title, description, photos, status);
+  // }
 
   static PlanRecipe fromSnapshot(DocumentSnapshot snap) {
     List photoJson = snap.data['photos'];
     final photoArray = photoJson.map((f) => f.toString()).toList();
     return PlanRecipe(
-      snap.documentID,
+      snap.data['id'],
       snap.data['title'],
       snap.data['description'],
       photoArray ?? [],

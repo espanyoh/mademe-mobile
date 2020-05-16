@@ -3,7 +3,7 @@ import 'package:mademe/app/plan/widget_plan_list_tile.dart';
 import 'package:mademe/app/plan/widget_plan_search_tile.dart';
 import 'package:mademe/services/plan_recipe_service.dart';
 import 'package:mademe/services/plan_service.dart';
-import 'package:mademe/services/search_recipe_service.dart';
+import 'package:mademe/services/recipes/search_recipe_service.dart';
 import 'package:provider/provider.dart';
 
 class PlanRecipePage extends StatelessWidget {
