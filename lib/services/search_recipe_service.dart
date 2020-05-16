@@ -66,19 +66,4 @@ class RecipePreview {
     final String status = data['status'] ?? '';
     return RecipePreview(id, title, description, photos, ingredientIDs, status);
   }
-
-  // static RecipePreview fromSnapshot(DocumentSnapshot snap) {
-  //   List photoJson = snap.data['photos'];
-  //   final photoArray = photoJson.map((f) => f.toString()).toList();
-  //   List ingredientJson = snap.data['ingredientIDs'];
-  //   final ingredientArray = ingredientJson.map((f) => f.toString()).toList();
-  //   return RecipePreview(
-  //     snap.documentID,
-  //     snap.data['title'],
-  //     snap.data['description'],
-  //     photoArray ?? [],
-  //     ingredientArray ?? [],
-  //     snap.data['status'] ?? '',
-  //   );
-  // }
 }
