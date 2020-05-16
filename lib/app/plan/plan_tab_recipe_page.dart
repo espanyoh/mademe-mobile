@@ -63,14 +63,14 @@ class PlanRecipePage extends StatelessWidget {
   Widget _buildSearchResult(SearchRecipeService service) {
     return Consumer<SearchRecipeService>(
       builder: (context, service, child) {
-        var result = service.recipeResult;
+        var result = service.recipePreviewResult;
         return Container(
           height: result.length == 0 ? 0.0 : 220.0,
           child: ListView.builder(
             shrinkWrap: true,
             physics: ClampingScrollPhysics(),
             scrollDirection: Axis.horizontal,
-            itemCount: service.recipeResult.length,
+            itemCount: service.recipePreviewResult.length,
             itemBuilder: (context, index) {
               return PlanSearchTile(
                 recipe: result[index],

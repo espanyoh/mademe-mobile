@@ -5,7 +5,7 @@ import 'package:mademe/services/search_recipe_service.dart';
 import 'package:provider/provider.dart';
 
 class PlanSearchTile extends StatelessWidget {
-  final Recipe recipe;
+  final RecipePreview recipe;
   PlanSearchTile({@required this.recipe});
 
   @override

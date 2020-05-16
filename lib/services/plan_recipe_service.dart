@@ -19,7 +19,7 @@ class PlanRecipeService {
     }).asBroadcastStream();
   }
 
-  void addRecipe(String planID, Recipe recipe) async {
+  void addRecipe(String planID, RecipePreview recipe) async {
     var rawRecipe =
         Firestore.instance.collection('recipes').document(recipe.id);
     rawRecipe.get().then((doc) {
