@@ -29,13 +29,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
-  buffer:
-    dependency: transitive
-    description:
-      name: buffer
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.6"
   camera:
     dependency: "direct main"
     description:
@@ -85,20 +78,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.3"
-  elastic_client:
-    dependency: "direct main"
-    description:
-      name: elastic_client
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.10"
-  executor:
-    dependency: transitive
-    description:
-      name: executor
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.2.1"
   ff_navigation_bar:
     dependency: "direct main"
     description:
@@ -191,13 +170,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.1"
-  http_client:
-    dependency: transitive
+  http_auth:
+    dependency: "direct main"
     description:
-      name: http_client
+      name: http_auth
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.4.0"
+    version: "0.2.9"
   http_parser:
     dependency: transitive
     description:

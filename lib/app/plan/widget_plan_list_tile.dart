@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mademe/app/recipe/recipe_detail_page.dart';
-import 'package:mademe/models/recipe_preview_model.dart';
 import 'package:mademe/services/plan_recipe_service.dart';
 import 'package:mademe/services/plan_service.dart';
 import 'package:mademe/services/recipes/search_recipe_service.dart';
@@ -8,14 +7,26 @@ import 'package:provider/provider.dart';
 
 class PlanReceipeTile extends StatelessWidget {
   final String id;
+  final String recipeID;
   final String title;
   final String description;
   final List<String> imgAssetPath;
   PlanReceipeTile(
       {@required this.imgAssetPath,
       @required this.id,
+      @required this.recipeID,
       @required this.title,
       @required this.description});
+
+  void gotoDetailPage(SearchRecipeService service, BuildContext context) async {
+    var detail = await service.getRecipeDetail(recipeID);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => RecipeDetail(
+                  recipeDetail: detail,
+                )));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,28 +36,19 @@ class PlanReceipeTile extends StatelessWidget {
 
     final searchRecipeService =
         Provider.of<SearchRecipeService>(context, listen: false);
-    final recipePreviewInput =
-        new RecipePreviewModel(id, title, description, imgAssetPath, [], "");
     return Padding(
       padding: const EdgeInsets.all(5.0),
-      child: GestureDetector(
-        onTap: () async {
-          var detail = await searchRecipeService.getRecipeDetail(id);
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => RecipeDetail(
-                        recipeDetail: detail,
-                      )));
-        },
-        child: Container(
-          decoration: BoxDecoration(
-              color: Color(0xffFFEEE0),
-              borderRadius: BorderRadius.circular(20)),
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          child: Row(
-            children: <Widget>[
-              Container(
+      child: Container(
+        decoration: BoxDecoration(
+            color: Color(0xffFFEEE0), borderRadius: BorderRadius.circular(20)),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        child: Row(
+          children: <Widget>[
+            GestureDetector(
+              onTap: () async {
+                gotoDetailPage(searchRecipeService, context);
+              },
+              child: Container(
                 child: imgAssetPath.length > 0
                     ? Image.network(
                         imgAssetPath[0],
@@ -56,10 +58,15 @@ class PlanReceipeTile extends StatelessWidget {
                       )
                     : Text('WAIT FOR IMAGE'),
               ),
-              SizedBox(
-                width: 17,
-              ),
-              Column(
+            ),
+            SizedBox(
+              width: 17,
+            ),
+            GestureDetector(
+              onTap: () async {
+                gotoDetailPage(searchRecipeService, context);
+              },
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
@@ -82,19 +89,20 @@ class PlanReceipeTile extends StatelessWidget {
                   )
                 ],
               ),
-              Spacer(),
-              Container(
-                child: IconButton(
-                  icon: Icon(Icons.remove_circle),
-                  color: Colors.redAccent,
-                  onPressed: () {
-                    planRecipeService.removeRecipe(
-                        planService.current.id, this.id);
-                  },
-                ),
-              )
-            ],
-          ),
+            ),
+            Spacer(),
+            Container(
+              child: IconButton(
+                icon: Icon(Icons.remove_circle),
+                color: Colors.redAccent,
+                onPressed: () {
+                  print('try to delete');
+                  planRecipeService.removeRecipe(
+                      planService.current.id, this.id);
+                },
+              ),
+            )
+          ],
         ),
       ),
     );

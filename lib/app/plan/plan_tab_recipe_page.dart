@@ -124,6 +124,7 @@ class PlanRecipePage extends StatelessWidget {
             //change name here
             return PlanReceipeTile(
               id: doc.id,
+              recipeID: doc.recipeID,
               title: doc.title,
               description: doc.description,
               imgAssetPath: doc.photos,

@@ -42,6 +42,7 @@ class PlanRecipeService {
   }
 
   void removeRecipe(String planID, String recipeID) async {
+    //print("UID: $uid, PlanID: $planID, recipeID:$recipeID");
     await Firestore.instance
         .collection('profiles/$uid/plans/$planID/recipes')
         .document(recipeID)
@@ -51,12 +52,14 @@ class PlanRecipeService {
 
 class PlanRecipe {
   final String id;
+  final String recipeID;
   final String title;
   final String description;
   final List<String> photos;
   final String status;
 
-  PlanRecipe(this.id, this.title, this.description, this.photos, this.status);
+  PlanRecipe(this.id, this.recipeID, this.title, this.description, this.photos,
+      this.status);
 
   // factory PlanRecipe.fromMap(Map<String, dynamic> data) {
   //   if (data == null) {
@@ -74,6 +77,7 @@ class PlanRecipe {
     List photoJson = snap.data['photos'];
     final photoArray = photoJson.map((f) => f.toString()).toList();
     return PlanRecipe(
+      snap.documentID,
       snap.data['id'],
       snap.data['title'],
       snap.data['description'],
