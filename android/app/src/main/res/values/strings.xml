@@ -6,4 +6,7 @@
 	<string name="fb_login_protocol_scheme">
 		fb892825494474810
 	</string>
+	<string name="app_name">
+		Made Me
+	</string>
 </resources>

@@ -60,7 +60,7 @@ class AppDrawer extends StatelessWidget {
         children: <Widget>[
           Text(
             'Welcome Esponyoh',
-            style: Theme.of(context).textTheme.title,
+            style: Theme.of(context).textTheme.headline1,
             textAlign: TextAlign.center,
           ),
           SizedBox(
@@ -91,7 +91,7 @@ class AppDrawer extends StatelessWidget {
             padding: EdgeInsets.only(left: 8.0),
             child: Text(
               text,
-              style: Theme.of(context).textTheme.body1,
+              style: Theme.of(context).textTheme.bodyText1,
             ),
           )
         ],

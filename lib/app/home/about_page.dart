@@ -26,12 +26,12 @@ class AboutPage extends StatelessWidget {
           children: <Widget>[
             Text(
               'Delicious menu helper',
-              style: Theme.of(context).textTheme.headline,
+              style: Theme.of(context).textTheme.headline1,
             ),
             SizedBox(height: 32),
             Text(
               'by Espanyoh',
-              style: Theme.of(context).textTheme.title,
+              style: Theme.of(context).textTheme.headline2,
             ),
           ],
         ),

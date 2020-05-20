@@ -67,6 +67,7 @@ class PlanIngredientPage extends StatelessWidget {
                   title: doc.title,
                   description: doc.description,
                   imgAssetPath: doc.photos,
+                  recipeID: null,
                 );
               }).toList(),
             );

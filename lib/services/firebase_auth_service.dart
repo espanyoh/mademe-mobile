@@ -68,8 +68,10 @@ class FirebaseAuthService {
       ],
     );
     final googleAccount = await _googleSignIn.signIn();
+    print('googleAccount:' + googleAccount.toString());
     final GoogleSignInAuthentication googleAuthen =
         await googleAccount.authentication;
+    print('googleAuthen:' + googleAuthen.toString());
     final AuthCredential credential = GoogleAuthProvider.getCredential(
       accessToken: googleAuthen.accessToken,
       idToken: googleAuthen.idToken,
@@ -77,6 +79,7 @@ class FirebaseAuthService {
 
     final AuthResult authResult =
         await _firebaseAuth.signInWithCredential(credential);
+    print('authResult:' + authResult.toString());
     createDefaultPlan(authResult.user);
     return _userFromFirebase(authResult.user);
   }
