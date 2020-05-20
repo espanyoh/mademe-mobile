@@ -26,6 +26,9 @@ class PlanRecipeService {
       Firestore.instance
           .collection('profiles/$uid/plans/$planID/recipes')
           .add(doc.data);
+    }).catchError((onError) {
+      print('error!!!!');
+      print(onError);
     });
 
     recipe.ingredientIDs.forEach((ingredient) async {

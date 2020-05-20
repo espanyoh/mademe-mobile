@@ -45,7 +45,9 @@ class NewDrawer extends StatelessWidget {
                           ),
                         ],
                       );
-                      planService.createPlan(text[0]);
+                      if (text != null && text.length > 0 && text[0] != "") {
+                        planService.createPlan(text[0]);
+                      }
                     },
                   ),
                   _createDrawerItem(

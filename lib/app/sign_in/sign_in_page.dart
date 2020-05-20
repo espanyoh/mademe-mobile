@@ -67,6 +67,19 @@ class _SignInPageState extends State<SignInPage> {
     }
   }
 
+  Future<void> _signInGoogle(BuildContext context) async {
+    try {
+      final auth = Provider.of<FirebaseAuthService>(context, listen: false);
+      var user = await auth.loginWithGoogle();
+      print(user);
+      if (user == null) {
+        setState(() => _error = "Fail to facebook login");
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<void> _signUpEmailPassword(BuildContext context) async {
     try {
       final auth = Provider.of<FirebaseAuthService>(context, listen: false);
@@ -399,7 +412,10 @@ class _SignInPageState extends State<SignInPage> {
             width: 10.0,
           ),
           _buildSocialBtn(
-            () => print('Login with Google'),
+            () {
+              print('Login with Google');
+              _signInGoogle(context);
+            },
             AssetImage(
               'assets/logos/google.jpg',
             ),

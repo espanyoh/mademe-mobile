@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 @immutable
 class User {
@@ -45,12 +46,8 @@ class FirebaseAuthService {
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
         String token = result.accessToken.token;
-        print("facebook = $result");
-        print("Access token = $token");
         final authResult = await _firebaseAuth.signInWithCredential(
             FacebookAuthProvider.getCredential(accessToken: token));
-
-        print("authResult.user = ${authResult.user}");
         createDefaultPlan(authResult.user);
         return _userFromFirebase(authResult.user);
         break;
@@ -61,6 +58,27 @@ class FirebaseAuthService {
         print('error : ' + result.errorMessage);
         break;
     }
+  }
+
+  Future loginWithGoogle() async {
+    GoogleSignIn _googleSignIn = GoogleSignIn(
+      scopes: <String>[
+        'email',
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ],
+    );
+    final googleAccount = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuthen =
+        await googleAccount.authentication;
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleAuthen.accessToken,
+      idToken: googleAuthen.idToken,
+    );
+
+    final AuthResult authResult =
+        await _firebaseAuth.signInWithCredential(credential);
+    createDefaultPlan(authResult.user);
+    return _userFromFirebase(authResult.user);
   }
 
   Future<void> signOut() async {
