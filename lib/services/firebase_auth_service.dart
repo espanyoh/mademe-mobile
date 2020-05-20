@@ -80,12 +80,7 @@ class FirebaseAuthService {
         .collection('profiles')
         .document(user.uid)
         .collection('plans')
-        .add({
-      "active": true,
-      "created_at": now,
-      "title": "Welcome plan",
-      "description": "Your first plan to join our clan"
-    });
+        .add({"active": true, "created_at": now, "title": "Welcome plan"});
     print('done for create plan' + plan.documentID);
   }
 }

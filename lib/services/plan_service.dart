@@ -42,18 +42,27 @@ class PlanService {
       }).toList();
     }).asBroadcastStream();
   }
+
+  Future<void> createPlan(String title) async {
+    // Mark every plan else to active false
+    var now = ((new DateTime.now()).millisecondsSinceEpoch / 1000).round();
+    var plan = await Firestore.instance
+        .collection('profiles')
+        .document(uid)
+        .collection('plans')
+        .add({"active": true, "created_at": now, "title": title});
+    print('done for create plan' + plan.documentID);
+  }
 }
 
 class Plan {
   final String id;
   final String uid;
   final String title;
-  final String description;
   final int createdAt;
   final bool active;
 
-  Plan(this.id, this.uid, this.title, this.description, this.createdAt,
-      this.active);
+  Plan(this.id, this.uid, this.title, this.createdAt, this.active);
 
   // factory Plan.fromMap(Map<String, dynamic> data) {
   //   if (data == null) {
@@ -71,7 +80,6 @@ class Plan {
       snap.documentID,
       uid,
       snap.data['title'],
-      snap.data['description'],
       snap.data['created_at'] ?? '',
       snap.data['active'] ?? false,
     );

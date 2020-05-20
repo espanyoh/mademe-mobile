@@ -5,11 +5,14 @@ import 'package:mademe/common_widgets/avatar.dart';
 import 'package:mademe/models/avatar_reference.dart';
 import 'package:mademe/services/firebase_auth_service.dart';
 import 'package:mademe/services/firestore_service.dart';
+import 'package:mademe/services/plan_service.dart';
 import 'package:provider/provider.dart';
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 
 class NewDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final planService = Provider.of<PlanService>(context, listen: false);
     return Container(
       width: 200.0,
       decoration: BoxDecoration(color: Color(0xFF433C3E)),
@@ -29,6 +32,21 @@ class NewDrawer extends StatelessWidget {
                     icon: Icons.queue_play_next,
                     text: 'New plan',
                     context: context,
+                    onTap: () async {
+                      FocusScope.of(context).unfocus();
+                      final text = await showTextInputDialog(
+                        context: context,
+                        title: 'What\' the plan name?',
+                        // message: 'Input you plan',
+                        textFields: const [
+                          DialogTextField(
+                            hintText: 'Define you plan name',
+                            initialText: '...',
+                          ),
+                        ],
+                      );
+                      planService.createPlan(text[0]);
+                    },
                   ),
                   _createDrawerItem(
                     icon: Icons.archive,
