@@ -24,14 +24,14 @@ class _SignInPageState extends State<SignInPage> {
     super.dispose();
   }
 
-  Future<void> _signInAnonymously(BuildContext context) async {
-    try {
-      final auth = Provider.of<FirebaseAuthService>(context, listen: false);
-      await auth.signInAnonymously();
-    } catch (e) {
-      print(e);
-    }
-  }
+  // Future<void> _signInAnonymously(BuildContext context) async {
+  //   try {
+  //     final auth = Provider.of<FirebaseAuthService>(context, listen: false);
+  //     await auth.signInAnonymously();
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   Future<void> _signInEmailPassword(BuildContext context) async {
     try {
@@ -48,6 +48,19 @@ class _SignInPageState extends State<SignInPage> {
       print(user);
       if (user == null) {
         setState(() => _error = "Fail to login");
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> _signInFacebook(BuildContext context) async {
+    try {
+      final auth = Provider.of<FirebaseAuthService>(context, listen: false);
+      var user = await auth.loginWithFacebook();
+      print(user);
+      if (user == null) {
+        setState(() => _error = "Fail to facebook login");
       }
     } catch (e) {
       print(e);
@@ -374,7 +387,10 @@ class _SignInPageState extends State<SignInPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           _buildSocialBtn(
-            () => print('Login with Facebook'),
+            () {
+              print('Login with Facebook');
+              _signInFacebook(context);
+            },
             AssetImage(
               'assets/logos/facebook.jpg',
             ),

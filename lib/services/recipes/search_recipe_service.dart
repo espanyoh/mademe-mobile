@@ -37,9 +37,8 @@ class SearchRecipeService with ChangeNotifier {
         searchResult.forEach((element) {
           final source = element['_source'];
           //print('Each item source:' + source.toString());
-          this
-              .recipePreviewResult
-              .add(RecipePreviewModel.fromElasticSearch(source['id'], source));
+          this.recipePreviewResult.add(
+              RecipePreviewModel.fromElasticSearch(element['_id'], source));
         });
       }
     });

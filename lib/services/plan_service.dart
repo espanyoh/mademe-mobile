@@ -49,7 +49,7 @@ class Plan {
   final String uid;
   final String title;
   final String description;
-  final String createdAt;
+  final int createdAt;
   final bool active;
 
   Plan(this.id, this.uid, this.title, this.description, this.createdAt,
