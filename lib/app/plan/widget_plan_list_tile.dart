@@ -18,13 +18,17 @@ class PlanReceipeTile extends StatelessWidget {
       @required this.title,
       @required this.description});
 
-  void gotoDetailPage(SearchRecipeService service, BuildContext context) async {
-    var detail = await service.getRecipeDetail(recipeID);
+  void gotoDetailPage(SearchRecipeService service, PlanService planService,
+      PlanRecipeService planRecipeService, BuildContext context) async {
+    var detail = await service.getRecipeDetail(
+        recipeID, planService.uid, planService.current.id);
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => RecipeDetail(
                   recipeDetail: detail,
+                  planID: planService.current.id,
+                  planRecipeService: planRecipeService,
                 )));
   }
 
@@ -46,7 +50,8 @@ class PlanReceipeTile extends StatelessWidget {
           children: <Widget>[
             GestureDetector(
               onTap: () async {
-                gotoDetailPage(searchRecipeService, context);
+                gotoDetailPage(searchRecipeService, planService,
+                    planRecipeService, context);
               },
               child: Container(
                 child: imgAssetPath.length > 0
@@ -64,7 +69,8 @@ class PlanReceipeTile extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () async {
-                gotoDetailPage(searchRecipeService, context);
+                gotoDetailPage(searchRecipeService, planService,
+                    planRecipeService, context);
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

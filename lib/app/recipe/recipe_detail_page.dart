@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:mademe/models/recipe_detail_model.dart';
+import 'package:mademe/services/plan_recipe_service.dart';
 
 import 'recipe_ingredient_tile.dart';
 
 class RecipeDetail extends StatelessWidget {
   final RecipeDetailModel recipeDetail;
-  RecipeDetail({@required this.recipeDetail});
+  final PlanRecipeService planRecipeService;
+  final String planID;
+  RecipeDetail(
+      {@required this.recipeDetail, this.planRecipeService, this.planID});
 
   @override
   Widget build(BuildContext context) {
@@ -47,19 +51,35 @@ class RecipeDetail extends StatelessWidget {
                   Positioned(
                     bottom: 5.0,
                     right: 30.0,
-                    child: RawMaterialButton(
-                      shape: CircleBorder(),
-                      elevation: 0.1,
-                      fillColor: Colors.green,
-                      child: Icon(
-                        Icons.check_circle,
-                        color: Colors.white,
-                        size: 30.0,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
+                    child: recipeDetail.status != ''
+                        ? RawMaterialButton(
+                            shape: CircleBorder(),
+                            elevation: 0.1,
+                            fillColor: Colors.green,
+                            child: Icon(
+                              Icons.check_circle,
+                              color: Colors.white,
+                              size: 40.0,
+                            ),
+                            onPressed: () {
+                              //Navigator.pop(context);
+                            },
+                          )
+                        : RawMaterialButton(
+                            shape: CircleBorder(),
+                            elevation: 0.1,
+                            fillColor: Colors.redAccent,
+                            child: Icon(
+                              Icons.add_circle,
+                              color: Colors.white,
+                              size: 40.0,
+                            ),
+                            onPressed: () async {
+                              await planRecipeService.addRecipe(
+                                  planID, recipeDetail);
+                              Navigator.pop(context);
+                            },
+                          ),
                   )
                 ],
               ),

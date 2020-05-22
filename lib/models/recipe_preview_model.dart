@@ -4,7 +4,7 @@ class RecipePreviewModel {
   final String description;
   final List<String> photos;
   final List<String> ingredientIDs;
-  final String status;
+  String status;
 
   RecipePreviewModel(this.id, this.title, this.description, this.photos,
       this.ingredientIDs, this.status);

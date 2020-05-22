@@ -31,8 +31,8 @@ class PlanSearchTile extends StatelessWidget {
               GestureDetector(
                 onTap: () async {
                   print('start to getRecipeDetail with ${recipe.id}');
-                  var detail =
-                      await searchRecipeService.getRecipeDetail(recipe.id);
+                  var detail = await searchRecipeService.getRecipeDetail(
+                      recipe.id, planService.uid, planService.current.id);
 
                   print('detail receive with getRecipeDetail: ' +
                       detail.toString());
@@ -41,6 +41,8 @@ class PlanSearchTile extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (context) => RecipeDetail(
                                 recipeDetail: detail,
+                                planID: planService.current.id,
+                                planRecipeService: planRecipeService,
                               )));
                 },
                 child: Container(

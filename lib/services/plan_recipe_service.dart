@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mademe/models/recipe_preview_model.dart';
+import 'package:mademe/utilities/log.dart';
 
 class PlanRecipeService {
   PlanRecipeService({@required this.uid}) : assert(uid != null);
@@ -19,7 +20,7 @@ class PlanRecipeService {
     }).asBroadcastStream();
   }
 
-  void addRecipe(String planID, RecipePreviewModel recipe) async {
+  Future<void> addRecipe(String planID, RecipePreviewModel recipe) async {
     var rawRecipe =
         Firestore.instance.collection('recipes').document(recipe.id);
     rawRecipe.get().then((doc) {
@@ -27,8 +28,7 @@ class PlanRecipeService {
           .collection('profiles/$uid/plans/$planID/recipes')
           .add(doc.data);
     }).catchError((onError) {
-      print('error!!!!');
-      print(onError);
+      printT(onError);
     });
 
     recipe.ingredientIDs.forEach((ingredient) async {
