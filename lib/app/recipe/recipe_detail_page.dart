@@ -132,8 +132,8 @@ class RecipeDetail extends StatelessWidget {
           width: 30.0,
         ),
         Container(
-          color: Colors.blue[50],
-          height: 80.0,
+          // color: Colors.blue[50],
+          height: 60.0,
           width: MediaQuery.of(context).size.width - 60,
           child: ListView.builder(
             shrinkWrap: true,

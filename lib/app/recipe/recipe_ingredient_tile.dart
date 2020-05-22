@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mademe/models/recipe_detail_model.dart';
 
 class RecipeIngredientTile extends StatelessWidget {
-  // final String photo;
-  // final String title;
   final Ingredient ingredient;
 
   RecipeIngredientTile({@required this.ingredient});
@@ -11,7 +9,7 @@ class RecipeIngredientTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
       padding: EdgeInsets.only(top: 5.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,49 +20,23 @@ class RecipeIngredientTile extends StatelessWidget {
               Container(
                 width: 60.0,
                 decoration: BoxDecoration(
-                  color: Color(0xFF32A060),
+                  color: Color(0xffEFEFEF),
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 margin: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Stack(
+                  borderRadius: BorderRadius.circular(15.0),
+                  child: Column(
                     children: <Widget>[
-                      Center(
-                        child: Hero(
-                          tag: 'heroID-${ingredient.title}',
-                          child: Image.network(
-                            ingredient.photo,
-                            fit: BoxFit.fitHeight,
-                            height: 60.0,
-                            width: 60.0,
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 10.0,
-                        bottom: 10.0,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              ingredient.title,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 7.0,
-                                fontWeight: FontWeight.w600,
-                                shadows: <Shadow>[
-                                  Shadow(
-                                    offset: Offset(2.0, 2.0),
-                                    blurRadius: 4.0,
-                                    color: Colors.white,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      SizedBox(height: 5.0),
+                      Text(ingredient.title,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 12.0, fontWeight: FontWeight.bold)),
+                      Text(ingredient.amount,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 10.0)),
+                      SizedBox(height: 5.0),
                     ],
                   ),
                 ),
