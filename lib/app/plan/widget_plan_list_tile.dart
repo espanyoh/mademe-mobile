@@ -104,7 +104,7 @@ class PlanReceipeTile extends StatelessWidget {
                 onPressed: () {
                   print('try to delete');
                   planRecipeService.removeRecipe(
-                      planService.current.id, this.id);
+                      planService.current.id, this.id, this.recipeID);
                 },
               ),
             )

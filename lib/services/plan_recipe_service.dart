@@ -32,24 +32,69 @@ class PlanRecipeService {
     });
 
     recipe.ingredientIDs.forEach((ingredient) async {
-      var ingredientDoc =
-          Firestore.instance.collection('ingredients').document(ingredient);
-      ingredientDoc.get().then((onValue) {
-        if (onValue.data != null) {
-          Firestore.instance
-              .collection('profiles/$uid/plans/$planID/ingredients')
-              .add(onValue.data);
-        }
-      });
+      var planIngredient = await Firestore.instance
+          .collection('profiles/$uid/plans/$planID/ingredients')
+          .document(ingredient)
+          .get();
+
+      if (planIngredient.exists) {
+        var recipeMap = {
+          recipe.id: {"title": recipe.title, "amount": "some number"}
+        };
+        Firestore.instance
+            .collection('profiles/$uid/plans/$planID/ingredients')
+            .document(ingredient)
+            .updateData({
+          "recipes": FieldValue.arrayUnion([recipeMap]),
+          "recipeIDs": FieldValue.arrayUnion([recipe.id]),
+        });
+      } else {
+        var raw = await Firestore.instance
+            .collection('ingredients')
+            .document(ingredient)
+            .get();
+        var obj = raw.data;
+        var recipeMap = {
+          recipe.id: {"title": recipe.title, "amount": "some number"}
+        };
+        obj.addAll({
+          "recipes": [recipeMap],
+          "recipeIDs": [recipe.id],
+        });
+        Firestore.instance
+            .collection('profiles/$uid/plans/$planID/ingredients')
+            .document(ingredient)
+            .setData(obj);
+      }
     });
   }
 
-  void removeRecipe(String planID, String recipeID) async {
-    //print("UID: $uid, PlanID: $planID, recipeID:$recipeID");
+  void removeRecipe(String planID, String planRecipeID, String recipeID) async {
+    //print("UID: $uid, PlanID: $planID, planRecipeID:$planRecipeID");
     await Firestore.instance
         .collection('profiles/$uid/plans/$planID/recipes')
-        .document(recipeID)
+        .document(planRecipeID)
         .delete();
+    var recipes = await Firestore.instance
+        .collection('profiles/$uid/plans/$planID/ingredients')
+        .where("recipeIDs", arrayContains: recipeID)
+        .getDocuments();
+    recipes.documents.forEach((element) {
+      List recipes = element.data['recipeIDs'];
+      if (recipes.length <= 1) {
+        Firestore.instance
+            .collection('profiles/$uid/plans/$planID/ingredients')
+            .document(element.documentID)
+            .delete();
+      } else {
+        Firestore.instance
+            .collection('profiles/$uid/plans/$planID/ingredients')
+            .document(element.documentID)
+            .updateData({
+          "recipeIDs": FieldValue.arrayRemove([recipeID])
+        });
+      }
+    });
   }
 }
 
