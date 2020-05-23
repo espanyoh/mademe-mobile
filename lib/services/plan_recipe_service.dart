@@ -23,27 +23,33 @@ class PlanRecipeService {
   Future<void> addRecipe(String planID, RecipePreviewModel recipe) async {
     var rawRecipe =
         Firestore.instance.collection('recipes').document(recipe.id);
-    rawRecipe.get().then((doc) {
+    List ingredientList = [];
+    await rawRecipe.get().then((doc) {
       Firestore.instance
           .collection('profiles/$uid/plans/$planID/recipes')
           .add(doc.data);
+      ingredientList = doc.data['ingredients'] as List;
     }).catchError((onError) {
       printT(onError);
     });
 
-    recipe.ingredientIDs.forEach((ingredient) async {
+    ingredientList.forEach((ingredient) async {
+      Map ingredientMap = ingredient as Map;
+      var title = ingredientMap['ingredientName'];
+      var amount = ingredientMap['amount'];
+
       var planIngredient = await Firestore.instance
           .collection('profiles/$uid/plans/$planID/ingredients')
-          .document(ingredient)
+          .document(title)
           .get();
 
       if (planIngredient.exists) {
         var recipeMap = {
-          recipe.id: {"title": recipe.title, "amount": "some number"}
+          recipe.id: {"title": recipe.title, "amount": amount}
         };
         Firestore.instance
             .collection('profiles/$uid/plans/$planID/ingredients')
-            .document(ingredient)
+            .document(title)
             .updateData({
           "recipes": FieldValue.arrayUnion([recipeMap]),
           "recipeIDs": FieldValue.arrayUnion([recipe.id]),
@@ -51,11 +57,11 @@ class PlanRecipeService {
       } else {
         var raw = await Firestore.instance
             .collection('ingredients')
-            .document(ingredient)
+            .document(title)
             .get();
         var obj = raw.data;
         var recipeMap = {
-          recipe.id: {"title": recipe.title, "amount": "some number"}
+          recipe.id: {"title": recipe.title, "amount": amount}
         };
         obj.addAll({
           "recipes": [recipeMap],
@@ -63,7 +69,7 @@ class PlanRecipeService {
         });
         Firestore.instance
             .collection('profiles/$uid/plans/$planID/ingredients')
-            .document(ingredient)
+            .document(title)
             .setData(obj);
       }
     });
