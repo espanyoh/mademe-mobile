@@ -4,12 +4,22 @@ class PlanIngredientTile extends StatelessWidget {
   final String id;
   final String recipeID;
   final String title;
-  final String description;
+  final List<String> amount;
   PlanIngredientTile(
       {@required this.id,
       @required this.recipeID,
       @required this.title,
-      @required this.description});
+      @required this.amount});
+
+  String amountString(List<String> amount) {
+    var result = amount.fold("", (previousValue, element) {
+      if (previousValue == "") {
+        return element;
+      }
+      return previousValue + ", " + element;
+    });
+    return result;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +49,7 @@ class PlanIngredientTile extends StatelessWidget {
                 Container(
                   width: 130.0,
                   child: Text(
-                    description,
+                    amountString(amount),
                     style: TextStyle(fontSize: 11),
                     overflow: TextOverflow.ellipsis,
                   ),
