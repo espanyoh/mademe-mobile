@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mademe/app/auth_widget.dart';
 import 'package:mademe/app/auth_widget_builder.dart';
-import 'package:mademe/services/firebase_auth_service.dart';
+import 'package:mademe/services/auth/firebase_auth_service.dart';
 import 'package:mademe/services/image_picker_service.dart';
 import 'package:provider/provider.dart';
 

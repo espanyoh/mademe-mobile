@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mademe/app/recipe/recipe_detail_page.dart';
-import 'package:mademe/services/plan_recipe_service.dart';
-import 'package:mademe/services/plan_service.dart';
-import 'package:mademe/services/recipes/search_recipe_service.dart';
+import 'package:mademe/app/detail/recipe_detail_page.dart';
+import 'package:mademe/services/elastic_search/search_recipe_service.dart';
+import 'package:mademe/services/firestore/plan_recipe_service.dart';
+import 'package:mademe/services/firestore/plan_service.dart';
 import 'package:provider/provider.dart';
 
 class PlanReceipeTile extends StatelessWidget {

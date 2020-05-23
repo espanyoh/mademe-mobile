@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mademe/models/recipe_detail_model.dart';
-import 'package:mademe/services/plan_recipe_service.dart';
+import 'package:mademe/services/firestore/plan_recipe_service.dart';
 
 import 'recipe_ingredient_tile.dart';
 

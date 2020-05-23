@@ -64,6 +64,11 @@ class PlanRecipeService {
         var recipeMap = {
           recipe.id: {"title": recipe.title, "amount": amount}
         };
+        if (obj == null) {
+          printE('Please add this ingredient to its collection: $title');
+          return;
+        }
+
         obj.addAll({
           "recipes": [recipeMap],
           "recipeIDs": [recipe.id],

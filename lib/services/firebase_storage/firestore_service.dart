@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mademe/models/avatar_reference.dart';
+
 import 'firestore_path.dart';
 
 class FirestoreService {

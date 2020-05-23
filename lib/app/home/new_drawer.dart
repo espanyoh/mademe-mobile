@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mademe/app/home/about_page.dart';
 import 'package:mademe/app/home/setting_page.dart';
-import 'package:mademe/common_widgets/avatar.dart';
+import 'package:mademe/services/auth/firebase_auth_service.dart';
+import 'package:mademe/services/firebase_storage/firestore_service.dart';
+import 'package:mademe/services/firestore/plan_service.dart';
+import 'package:mademe/widgets/avatar.dart';
 import 'package:mademe/models/avatar_reference.dart';
-import 'package:mademe/services/firebase_auth_service.dart';
-import 'package:mademe/services/firestore_service.dart';
-import 'package:mademe/services/plan_service.dart';
 import 'package:provider/provider.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 

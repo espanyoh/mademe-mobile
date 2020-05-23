@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mademe/services/plan_ingredient_service.dart';
-import 'package:mademe/services/plan_service.dart';
+import 'package:mademe/services/firestore/plan_ingredient_service.dart';
+import 'package:mademe/services/firestore/plan_service.dart';
 import 'package:provider/provider.dart';
 
 class PlanIngredientTile extends StatelessWidget {

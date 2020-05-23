@@ -1,4 +1,4 @@
-import 'package:mademe/services/firebase_auth_service.dart';
+import 'package:mademe/services/auth/firebase_auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:mademe/utilities/log.dart';
 import 'package:mademe/utilities/styles.dart';
