@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:mademe/utilities/log.dart';
 
 class PlanIngredientService {
   PlanIngredientService({@required this.uid}) : assert(uid != null);
@@ -16,6 +17,18 @@ class PlanIngredientService {
         return PlanIngredient.fromSnapshot(doc);
       }).toList();
     }).asBroadcastStream();
+  }
+
+  Future<void> updateIngredientStatus(
+      String uid, planID, ingredientID, status) {
+    printT(
+        'updateIngredientStatus with uid:$uid, planID:$planID, ingredientID:$ingredientID ==> status:$status');
+    return Firestore.instance
+        .collection('profiles/$uid/plans/$planID/ingredients')
+        .document(ingredientID)
+        .updateData({
+      "status": status,
+    });
   }
 }
 

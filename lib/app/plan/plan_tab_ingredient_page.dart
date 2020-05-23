@@ -65,6 +65,7 @@ class PlanIngredientPage extends StatelessWidget {
                 return PlanIngredientTile(
                   id: doc.id,
                   title: doc.title,
+                  status: doc.status,
                   amount: doc.amount,
                   recipeID: null,
                 );
