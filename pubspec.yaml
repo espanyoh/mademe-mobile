@@ -23,16 +23,28 @@ dependencies:
   flutter_staggered_grid_view:
   provider: ^4.0.1
   firebase_auth: ^0.14.0+5
+  flutter_facebook_login:
+  google_sign_in: ^4.5.0
   cloud_firestore: ^0.12.9+4
   firebase_storage: ^3.0.6
   image_picker: ^0.6.2+3
   camera: ^0.5.7+2
   ff_navigation_bar:
   http_auth: ^0.2.9
+  adaptive_dialog: ^0.6.3+1
+  flutter_launcher_icons: ^0.7.3
+  progress_dialog: ^1.2.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
+
+flutter_icons:
+  image_path: assets/logos/logo_bg.png
+  android: "launcher_icon" # can specify file name here e.g. "ic_launcher"
+  ios: true # can specify file name here e.g. "My-Launcher-Icon"
+  # adaptive_icon_background: "assets/images/christmas-background.png" # only available for Android 8.0 devices and above
+  # adaptive_icon_foreground: "assets/images/icon-foreground-432x432.png" # only available for Android 8.0 devices and above
 
 dev_dependencies:
   flutter_test:
@@ -53,6 +65,7 @@ flutter:
     - assets/logos/
     - assets/icons/
     - assets/temp/
+    - assets/logos/ios-icon.png
   #  - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

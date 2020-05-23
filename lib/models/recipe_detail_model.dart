@@ -57,11 +57,8 @@ class RecipeDetailModel extends RecipePreviewModel {
         // print("looping through instructions");
         // print(e.toString());
         instructions.add(new Instruction(
-          e['seq'],
-          e['detail'],
-          e['tips'],
-          e['photo']['smallUrl'],
-        ));
+            e['seq'], e['detail'], e['tips'], null //e['photo']['smallUrl'],
+            ));
       });
     }
 

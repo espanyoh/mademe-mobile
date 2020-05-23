@@ -1,6 +1,8 @@
 import 'package:mademe/services/firebase_auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:mademe/utilities/log.dart';
 import 'package:mademe/utilities/styles.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:provider/provider.dart';
 
 class SignInPage extends StatefulWidget {
@@ -24,14 +26,14 @@ class _SignInPageState extends State<SignInPage> {
     super.dispose();
   }
 
-  Future<void> _signInAnonymously(BuildContext context) async {
-    try {
-      final auth = Provider.of<FirebaseAuthService>(context, listen: false);
-      await auth.signInAnonymously();
-    } catch (e) {
-      print(e);
-    }
-  }
+  // Future<void> _signInAnonymously(BuildContext context) async {
+  //   try {
+  //     final auth = Provider.of<FirebaseAuthService>(context, listen: false);
+  //     await auth.signInAnonymously();
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   Future<void> _signInEmailPassword(BuildContext context) async {
     try {
@@ -47,7 +49,46 @@ class _SignInPageState extends State<SignInPage> {
           emailCtrl.value.text, passwordCtrl.value.text);
       print(user);
       if (user == null) {
-        setState(() => _error = "Fail to login");
+        setState(() => _error = "Not succesfully login");
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> _signInFacebook(BuildContext context) async {
+    final ProgressDialog pr = ProgressDialog(context);
+    pr.style(
+        progressWidget: CircularProgressIndicator(),
+        progressTextStyle: TextStyle(
+            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
+        messageTextStyle: TextStyle(
+            color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600));
+    try {
+      final auth = Provider.of<FirebaseAuthService>(context, listen: false);
+      await pr.show();
+      var user = await auth.loginWithFacebook();
+      printT('_signInFacebook return: ' + user.toString());
+      await pr.hide();
+      if (user == null) {
+        setState(() => _error = "Not succesfully login");
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> _signInGoogle(BuildContext context) async {
+    try {
+      final auth = Provider.of<FirebaseAuthService>(context, listen: false);
+      final ProgressDialog pr = ProgressDialog(context);
+      pr.style(progressWidget: CircularProgressIndicator());
+      await pr.show();
+      var user = await auth.loginWithGoogle();
+      printT('_signInFacebook return: ' + user.toString());
+      await pr.hide();
+      if (user == null) {
+        setState(() => _error = "Fail to facebook login");
       }
     } catch (e) {
       print(e);
@@ -112,17 +153,13 @@ class _SignInPageState extends State<SignInPage> {
               child: Column(
                 children: <Widget>[
                   Expanded(
-                    flex: 35,
+                    flex: 40,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        Text(
-                          'CRAFT CHEF',
-                          style: TextStyle(
-                            fontSize: 40.0,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF433D3E),
-                          ),
+                        Image(
+                          image: AssetImage('assets/logos/logo.png'),
+                          width: 240.0,
                         ),
                       ],
                     ),
@@ -156,7 +193,7 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                   ),
                   Expanded(
-                    flex: 25,
+                    flex: 20,
                     child: Padding(
                       padding: const EdgeInsets.only(right: 40.0, left: 40.0),
                       child: Column(
@@ -310,7 +347,7 @@ class _SignInPageState extends State<SignInPage> {
     return Column(
       children: <Widget>[
         SizedBox(
-          height: 40.0,
+          height: 10.0,
         ),
         Row(
           children: <Widget>[
@@ -319,7 +356,7 @@ class _SignInPageState extends State<SignInPage> {
                   margin: const EdgeInsets.only(left: 10.0, right: 15.0),
                   child: Divider(
                     color: Colors.white,
-                    height: 40,
+                    height: 30,
                   )),
             ),
             Text(
@@ -369,12 +406,15 @@ class _SignInPageState extends State<SignInPage> {
 
   Widget _buildSocialBtnRow() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 20.0),
+      padding: EdgeInsets.symmetric(vertical: 10.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           _buildSocialBtn(
-            () => print('Login with Facebook'),
+            () {
+              print('Login with Facebook');
+              _signInFacebook(context);
+            },
             AssetImage(
               'assets/logos/facebook.jpg',
             ),
@@ -383,7 +423,10 @@ class _SignInPageState extends State<SignInPage> {
             width: 10.0,
           ),
           _buildSocialBtn(
-            () => print('Login with Google'),
+            () {
+              print('Login with Google');
+              _signInGoogle(context);
+            },
             AssetImage(
               'assets/logos/google.jpg',
             ),

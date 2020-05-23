@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:http_auth/http_auth.dart';
 import 'package:mademe/models/recipe_detail_model.dart';
 import 'package:mademe/models/recipe_preview_model.dart';
+import 'package:mademe/utilities/log.dart';
 
 class SearchRecipeService with ChangeNotifier {
   List<RecipePreviewModel> recipePreviewResult = new List<RecipePreviewModel>();
@@ -37,19 +38,36 @@ class SearchRecipeService with ChangeNotifier {
         searchResult.forEach((element) {
           final source = element['_source'];
           //print('Each item source:' + source.toString());
-          this
-              .recipePreviewResult
-              .add(RecipePreviewModel.fromElasticSearch(source['id'], source));
+          this.recipePreviewResult.add(
+              RecipePreviewModel.fromElasticSearch(element['_id'], source));
         });
       }
     });
     notifyListeners();
   }
 
-  Future<RecipeDetailModel> getRecipeDetail(String id) {
-    final recipeDoc = Firestore.instance.collection('recipes').document(id);
-    return recipeDoc.get().then((doc) {
-      return RecipeDetailModel.fromSnapshot(doc.documentID, doc.data);
-    });
+  Future<RecipeDetailModel> getRecipeDetail(
+      String recipeID, String uid, String planID) async {
+    printT('getRecipeDetail with recipeID:$recipeID, uid:$uid, planID:$planID');
+    final recipeDoc =
+        await Firestore.instance.collection('recipes').document(recipeID).get();
+    var detail =
+        RecipeDetailModel.fromSnapshot(recipeDoc.documentID, recipeDoc.data);
+
+    final planRecipe = await Firestore.instance
+        .collection('profiles/$uid/plans/$planID/recipes')
+        .where("id", isEqualTo: recipeID)
+        .getDocuments();
+    printT('result search in plan:' + planRecipe.documents.length.toString());
+    if (planRecipe.documents.length == 0) {
+      detail.status = "";
+    } else {
+      detail.status = planRecipe.documents[0]['status'] ?? 'ADDED';
+    }
+    printT('status for this detail' + detail.status);
+    return detail;
+    // return recipeDoc.get().then((doc) {
+    //   return RecipeDetailModel.fromSnapshot(doc.documentID, doc.data);
+    // });
   }
 }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mademe/models/recipe_preview_model.dart';
+import 'package:mademe/utilities/log.dart';
 
 class PlanRecipeService {
   PlanRecipeService({@required this.uid}) : assert(uid != null);
@@ -19,34 +20,87 @@ class PlanRecipeService {
     }).asBroadcastStream();
   }
 
-  void addRecipe(String planID, RecipePreviewModel recipe) async {
+  Future<void> addRecipe(String planID, RecipePreviewModel recipe) async {
     var rawRecipe =
         Firestore.instance.collection('recipes').document(recipe.id);
-    rawRecipe.get().then((doc) {
+    List ingredientList = [];
+    await rawRecipe.get().then((doc) {
       Firestore.instance
           .collection('profiles/$uid/plans/$planID/recipes')
           .add(doc.data);
+      ingredientList = doc.data['ingredients'] as List;
+    }).catchError((onError) {
+      printT(onError);
     });
 
-    recipe.ingredientIDs.forEach((ingredient) async {
-      var ingredientDoc =
-          Firestore.instance.collection('ingredients').document(ingredient);
-      ingredientDoc.get().then((onValue) {
-        if (onValue.data != null) {
-          Firestore.instance
-              .collection('profiles/$uid/plans/$planID/ingredients')
-              .add(onValue.data);
-        }
-      });
+    ingredientList.forEach((ingredient) async {
+      Map ingredientMap = ingredient as Map;
+      var title = ingredientMap['ingredientName'];
+      var amount = ingredientMap['amount'];
+
+      var planIngredient = await Firestore.instance
+          .collection('profiles/$uid/plans/$planID/ingredients')
+          .document(title)
+          .get();
+
+      if (planIngredient.exists) {
+        var recipeMap = {
+          recipe.id: {"title": recipe.title, "amount": amount}
+        };
+        Firestore.instance
+            .collection('profiles/$uid/plans/$planID/ingredients')
+            .document(title)
+            .updateData({
+          "recipes": FieldValue.arrayUnion([recipeMap]),
+          "recipeIDs": FieldValue.arrayUnion([recipe.id]),
+        });
+      } else {
+        var raw = await Firestore.instance
+            .collection('ingredients')
+            .document(title)
+            .get();
+        var obj = raw.data;
+        var recipeMap = {
+          recipe.id: {"title": recipe.title, "amount": amount}
+        };
+        obj.addAll({
+          "recipes": [recipeMap],
+          "recipeIDs": [recipe.id],
+        });
+        Firestore.instance
+            .collection('profiles/$uid/plans/$planID/ingredients')
+            .document(title)
+            .setData(obj);
+      }
     });
   }
 
-  void removeRecipe(String planID, String recipeID) async {
-    //print("UID: $uid, PlanID: $planID, recipeID:$recipeID");
+  void removeRecipe(String planID, String planRecipeID, String recipeID) async {
+    //print("UID: $uid, PlanID: $planID, planRecipeID:$planRecipeID");
     await Firestore.instance
         .collection('profiles/$uid/plans/$planID/recipes')
-        .document(recipeID)
+        .document(planRecipeID)
         .delete();
+    var recipes = await Firestore.instance
+        .collection('profiles/$uid/plans/$planID/ingredients')
+        .where("recipeIDs", arrayContains: recipeID)
+        .getDocuments();
+    recipes.documents.forEach((element) {
+      List recipes = element.data['recipeIDs'];
+      if (recipes.length <= 1) {
+        Firestore.instance
+            .collection('profiles/$uid/plans/$planID/ingredients')
+            .document(element.documentID)
+            .delete();
+      } else {
+        Firestore.instance
+            .collection('profiles/$uid/plans/$planID/ingredients')
+            .document(element.documentID)
+            .updateData({
+          "recipeIDs": FieldValue.arrayRemove([recipeID])
+        });
+      }
+    });
   }
 }
 

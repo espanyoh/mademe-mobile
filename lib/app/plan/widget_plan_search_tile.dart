@@ -17,7 +17,8 @@ class PlanSearchTile extends StatelessWidget {
     final planService = Provider.of<PlanService>(context, listen: false);
     final searchRecipeService =
         Provider.of<SearchRecipeService>(context, listen: false);
-
+    print('build widget search tile with ${recipe.id}');
+    print('build widget search tile with ${recipe.title}');
     return Container(
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
       padding: EdgeInsets.only(top: 5.0),
@@ -29,14 +30,19 @@ class PlanSearchTile extends StatelessWidget {
             children: <Widget>[
               GestureDetector(
                 onTap: () async {
-                  var detail =
-                      await searchRecipeService.getRecipeDetail(recipe.id);
+                  print('start to getRecipeDetail with ${recipe.id}');
+                  var detail = await searchRecipeService.getRecipeDetail(
+                      recipe.id, planService.uid, planService.current.id);
 
+                  print('detail receive with getRecipeDetail: ' +
+                      detail.toString());
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => RecipeDetail(
                                 recipeDetail: detail,
+                                planID: planService.current.id,
+                                planRecipeService: planRecipeService,
                               )));
                 },
                 child: Container(
@@ -51,17 +57,14 @@ class PlanSearchTile extends StatelessWidget {
                     child: Stack(
                       children: <Widget>[
                         Center(
-                          child: Hero(
-                            tag: 'heroID-${recipe.title}',
-                            child: recipe.photos.length > 0
-                                ? Image.network(
-                                    recipe.photos[0],
-                                    fit: BoxFit.fitHeight,
-                                    height: 160.0,
-                                    width: 160.0,
-                                  )
-                                : Text('WAIT FOR IMAGE'),
-                          ),
+                          child: recipe.photos.length > 0
+                              ? Image.network(
+                                  recipe.photos[0],
+                                  fit: BoxFit.fitHeight,
+                                  height: 160.0,
+                                  width: 160.0,
+                                )
+                              : Text('WAIT FOR IMAGE'),
                         ),
                         Positioned(
                           left: 10.0,

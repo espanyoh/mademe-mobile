@@ -3,6 +3,7 @@ import 'package:mademe/services/firebase_auth_service.dart';
 import 'package:mademe/services/firebase_storage_service.dart';
 import 'package:mademe/services/firestore_service.dart';
 import 'package:flutter/material.dart';
+import 'package:mademe/utilities/log.dart';
 import 'package:provider/provider.dart';
 
 /// Used to create user-dependant objects that need to be accessible by all widgets.
@@ -20,7 +21,7 @@ class AuthWidgetBuilder extends StatelessWidget {
     return StreamBuilder<User>(
       stream: authService.onAuthStateChanged,
       builder: (context, snapshot) {
-        print('StreamBuilder: ${snapshot.connectionState}');
+        printT('auth user has changed...');
         final User user = snapshot.data;
         if (user != null) {
           return MultiProvider(

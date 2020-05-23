@@ -29,7 +29,7 @@ class SettingPage extends StatelessWidget {
           children: <Widget>[
             Text(
               'Underconstruction...',
-              style: Theme.of(context).textTheme.headline,
+              style: Theme.of(context).textTheme.headline1,
             ),
           ],
         ),
