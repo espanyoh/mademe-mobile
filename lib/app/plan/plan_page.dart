@@ -2,8 +2,8 @@ import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:mademe/app/plan/plan_tab_ingredient_page.dart';
 import 'package:mademe/app/plan/plan_tab_recipe_page.dart';
-import 'package:mademe/services/navigation_bar_provider.dart';
-import 'package:mademe/services/plan_service.dart';
+import 'package:mademe/models/plan_model.dart';
+import 'package:mademe/services/navigation_bar_service.dart';
 import 'package:provider/provider.dart';
 
 class PlanHomePage extends StatelessWidget {
@@ -12,10 +12,8 @@ class PlanHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print('......build _PlanHomePageState - later check when rebuild');
-
     // Won't set listen to false since rebuild is needed
-    final navigatorBar = Provider.of<BottomNavigationBarProvider>(context);
+    final navigatorBar = Provider.of<BottomNavigationBarService>(context);
 
     return Scaffold(
       backgroundColor: Color(0xFFE6DBDD),
@@ -64,7 +62,7 @@ class PlanHomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomNavBar(BottomNavigationBarProvider navigatorBar) {
+  Widget _buildBottomNavBar(BottomNavigationBarService navigatorBar) {
     return FFNavigationBar(
       theme: FFNavigationBarTheme(
         barBackgroundColor: Colors.white,

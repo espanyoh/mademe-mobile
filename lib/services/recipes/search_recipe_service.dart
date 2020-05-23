@@ -66,8 +66,5 @@ class SearchRecipeService with ChangeNotifier {
     }
     printT('status for this detail' + detail.status);
     return detail;
-    // return recipeDoc.get().then((doc) {
-    //   return RecipeDetailModel.fromSnapshot(doc.documentID, doc.data);
-    // });
   }
 }

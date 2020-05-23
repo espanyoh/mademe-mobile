@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mademe/app/plan/widget_plan_list_tile.dart';
 import 'package:mademe/app/plan/widget_plan_search_tile.dart';
+import 'package:mademe/models/plan_recipe_model.dart';
 import 'package:mademe/services/plan_recipe_service.dart';
 import 'package:mademe/services/plan_service.dart';
 import 'package:mademe/services/recipes/search_recipe_service.dart';

@@ -44,12 +44,9 @@ class FirebaseAuthService {
 
   Future loginWithFacebook() async {
     final facebookLogin = FacebookLogin();
-    printT('first step before login');
     final result = await facebookLogin.logIn(['email', "public_profile"]);
-    printT('second stop after confirm from facebook link');
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
-        printT('third step, login facebook status success');
         String token = result.accessToken.token;
         final authResult = await _firebaseAuth.signInWithCredential(
             FacebookAuthProvider.getCredential(accessToken: token));
@@ -57,10 +54,10 @@ class FirebaseAuthService {
         return _userFromFirebase(authResult.user);
         break;
       case FacebookLoginStatus.cancelledByUser:
-        print('cancel login');
+        printT('cancel login');
         break;
       case FacebookLoginStatus.error:
-        print('error : ' + result.errorMessage);
+        printT('error : ' + result.errorMessage);
         break;
     }
   }
@@ -72,9 +69,7 @@ class FirebaseAuthService {
         'https://www.googleapis.com/auth/contacts.readonly',
       ],
     );
-    printT('start calling google sign in');
     final googleAccount = await _googleSignIn.signIn();
-    printT('googleAccount:' + googleAccount.toString());
     if (googleAccount == null) {
       return null;
     }
@@ -101,8 +96,6 @@ class FirebaseAuthService {
         .collection('profiles')
         .document(user.uid)
         .get();
-    printT('existingProfile');
-    printT(existingProfile.exists.toString());
     if (existingProfile.exists == false) {
       printT('Create new profile...');
       var now = ((new DateTime.now()).millisecondsSinceEpoch / 1000).round();
@@ -123,7 +116,7 @@ class FirebaseAuthService {
           .add({"active": true, "created_at": now, "title": "Welcome plan"});
       printT('done for create plan' + plan.documentID);
     } else {
-      printT('Existing customer...');
+      printT('Loading existing profile...');
     }
   }
 }

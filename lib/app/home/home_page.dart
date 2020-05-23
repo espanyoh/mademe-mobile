@@ -1,6 +1,7 @@
 import 'package:mademe/app/home/new_drawer.dart';
 import 'package:mademe/app/plan/plan_page.dart';
-import 'package:mademe/services/navigation_bar_provider.dart';
+import 'package:mademe/models/plan_model.dart';
+import 'package:mademe/services/navigation_bar_service.dart';
 import 'package:mademe/services/plan_ingredient_service.dart';
 import 'package:mademe/services/plan_recipe_service.dart';
 import 'package:mademe/services/plan_service.dart';
@@ -83,9 +84,8 @@ Widget _buildPlan({BuildContext context}) {
                     PlanIngredientService(uid: plan.data.uid)),
             Provider<PlanRecipeService>(
                 create: (_) => PlanRecipeService(uid: plan.data.uid)),
-            ChangeNotifierProvider<BottomNavigationBarProvider>(
-                create: (BuildContext context) =>
-                    BottomNavigationBarProvider()),
+            ChangeNotifierProvider<BottomNavigationBarService>(
+                create: (BuildContext context) => BottomNavigationBarService()),
           ],
           child: PlanHomePage(
             plan: plan.data,
