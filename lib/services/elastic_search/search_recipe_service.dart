@@ -7,11 +7,22 @@ import 'package:flutter/material.dart';
 import 'package:http_auth/http_auth.dart';
 import 'package:mademe/models/recipe_detail_model.dart';
 import 'package:mademe/models/recipe_preview_model.dart';
+import 'package:mademe/models/secret_model.dart';
+import 'package:mademe/services/secret_loader_service.dart';
 import 'package:mademe/utilities/log.dart';
 
 class SearchRecipeService with ChangeNotifier {
   List<RecipePreviewModel> recipePreviewResult = new List<RecipePreviewModel>();
+  String elsticUrl;
+  String username;
+  String password;
+
   SearchRecipeService(recipePreviewResult) {
+    SecretLoaderService(secretPath: "secret_key.json").load().then((secret) {
+      elsticUrl = secret.elsticUrl;
+      username = secret.elsticUser;
+      password = secret.elsticPass;
+    });
     if (recipePreviewResult == null) {
       this.recipePreviewResult = new List<RecipePreviewModel>();
       return;
@@ -20,10 +31,9 @@ class SearchRecipeService with ChangeNotifier {
   }
 
   Future<void> searchElastic(String keyword) async {
-    print('searchElastic...:' + keyword);
-    var client = BasicAuthClient("gcpf", "espany9h1");
-    final url =
-        'https://7b543b21eb66462c9e8d952474d6479f.asia-southeast1.gcp.elastic-cloud.com:9243/mademe/recipes/_search';
+    printT('searchElastic...:' + keyword);
+    var client = BasicAuthClient(username, password);
+    final url = elsticUrl;
     String requestBody =
         '{"query":{"multi_match":{"query":"$keyword", "fields":["tags"], "fuzziness":"AUTO"}}}';
     Map<String, String> headers = {"Content-type": "application/json"};
