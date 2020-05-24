@@ -19,3 +19,16 @@ final sColorTextHeader1 = Colors.white;
 final sColorTextTitle1 = Colors.brown;
 final sColorTextDesc1 = Colors.grey;
 final sColorTextDetail1 = Colors.black26;
+
+// ---------------------- BoxDecoration ----------------------------
+final sBoxDecorationSplashInput = BoxDecoration(
+  color: sColorBody1,
+  borderRadius: BorderRadius.circular(10.0),
+  boxShadow: [
+    BoxShadow(
+      color: Colors.black12,
+      blurRadius: 6.0,
+      offset: Offset(0, 2),
+    ),
+  ],
+);

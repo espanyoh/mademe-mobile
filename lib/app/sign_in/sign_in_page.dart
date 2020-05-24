@@ -224,7 +224,7 @@ class _SignInPageState extends State<SignInPage> {
       children: <Widget>[
         Container(
           alignment: Alignment.centerLeft,
-          decoration: _inputBoxDecorationStyle,
+          decoration: sBoxDecorationSplashInput,
           height: 50.0,
           child: TextField(
             controller: emailCtrl,
@@ -255,7 +255,7 @@ class _SignInPageState extends State<SignInPage> {
       children: <Widget>[
         Container(
           alignment: Alignment.centerLeft,
-          decoration: _inputBoxDecorationStyle,
+          decoration: sBoxDecorationSplashInput,
           height: 50.0,
           child: TextField(
             controller: passwordCtrl,
@@ -286,7 +286,7 @@ class _SignInPageState extends State<SignInPage> {
       children: <Widget>[
         Container(
           alignment: Alignment.centerLeft,
-          decoration: _inputBoxDecorationStyle,
+          decoration: sBoxDecorationSplashInput,
           height: 50.0,
           child: TextField(
             controller: confirmCtrl,
@@ -487,16 +487,4 @@ class _SignInPageState extends State<SignInPage> {
       ),
     );
   }
-
-  final _inputBoxDecorationStyle = BoxDecoration(
-    color: sColorBody1,
-    borderRadius: BorderRadius.circular(10.0),
-    boxShadow: [
-      BoxShadow(
-        color: Colors.black12,
-        blurRadius: 6.0,
-        offset: Offset(0, 2),
-      ),
-    ],
-  );
 }
