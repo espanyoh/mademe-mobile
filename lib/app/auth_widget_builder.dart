@@ -1,7 +1,7 @@
-import 'package:mademe/services/plan_service.dart';
-import 'package:mademe/services/firebase_auth_service.dart';
-import 'package:mademe/services/firebase_storage_service.dart';
-import 'package:mademe/services/firestore_service.dart';
+import 'package:mademe/services/auth/firebase_auth_service.dart';
+import 'package:mademe/services/firebase_storage/firebase_storage_service.dart';
+import 'package:mademe/services/firebase_storage/firestore_service.dart';
+import 'package:mademe/services/firestore/plan_service.dart';
 import 'package:flutter/material.dart';
 import 'package:mademe/utilities/log.dart';
 import 'package:provider/provider.dart';

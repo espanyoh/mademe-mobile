@@ -1,11 +1,13 @@
 import 'package:mademe/app/home/new_drawer.dart';
 import 'package:mademe/app/plan/plan_page.dart';
-import 'package:mademe/services/navigation_bar_provider.dart';
-import 'package:mademe/services/plan_ingredient_service.dart';
-import 'package:mademe/services/plan_recipe_service.dart';
-import 'package:mademe/services/plan_service.dart';
+import 'package:mademe/models/plan_model.dart';
+import 'package:mademe/services/elastic_search/search_recipe_service.dart';
+import 'package:mademe/services/firestore/plan_ingredient_service.dart';
+import 'package:mademe/services/firestore/plan_recipe_service.dart';
+import 'package:mademe/services/firestore/plan_service.dart';
+import 'package:mademe/services/navigation_bar_service.dart';
 import 'package:flutter/material.dart';
-import 'package:mademe/services/recipes/search_recipe_service.dart';
+import 'package:mademe/utilities/styles.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
@@ -16,7 +18,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       drawer: NewDrawer(),
-      backgroundColor: Color(0xFFE6DBDD),
+      backgroundColor: sColorBody3,
       body: Column(
         children: <Widget>[
           Row(
@@ -83,9 +85,8 @@ Widget _buildPlan({BuildContext context}) {
                     PlanIngredientService(uid: plan.data.uid)),
             Provider<PlanRecipeService>(
                 create: (_) => PlanRecipeService(uid: plan.data.uid)),
-            ChangeNotifierProvider<BottomNavigationBarProvider>(
-                create: (BuildContext context) =>
-                    BottomNavigationBarProvider()),
+            ChangeNotifierProvider<BottomNavigationBarService>(
+                create: (BuildContext context) => BottomNavigationBarService()),
           ],
           child: PlanHomePage(
             plan: plan.data,

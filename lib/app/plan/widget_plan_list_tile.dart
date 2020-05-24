@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mademe/app/recipe/recipe_detail_page.dart';
-import 'package:mademe/services/plan_recipe_service.dart';
-import 'package:mademe/services/plan_service.dart';
-import 'package:mademe/services/recipes/search_recipe_service.dart';
+import 'package:mademe/app/detail/recipe_detail_page.dart';
+import 'package:mademe/services/elastic_search/search_recipe_service.dart';
+import 'package:mademe/services/firestore/plan_recipe_service.dart';
+import 'package:mademe/services/firestore/plan_service.dart';
+import 'package:mademe/utilities/styles.dart';
 import 'package:provider/provider.dart';
 
 class PlanReceipeTile extends StatelessWidget {
@@ -44,7 +45,7 @@ class PlanReceipeTile extends StatelessWidget {
       padding: const EdgeInsets.all(5.0),
       child: Container(
         decoration: BoxDecoration(
-            color: Color(0xffFFEEE0), borderRadius: BorderRadius.circular(20)),
+            color: sColorBody4, borderRadius: BorderRadius.circular(20)),
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Row(
           children: <Widget>[
@@ -78,8 +79,7 @@ class PlanReceipeTile extends StatelessWidget {
                   Container(
                     width: 180.0,
                     child: Text(title,
-                        style:
-                            TextStyle(color: Color(0xffFC9535), fontSize: 19),
+                        style: TextStyle(color: sColorText1, fontSize: 19),
                         overflow: TextOverflow.ellipsis),
                   ),
                   SizedBox(

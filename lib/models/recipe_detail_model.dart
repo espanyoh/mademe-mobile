@@ -18,8 +18,6 @@ class RecipeDetailModel extends RecipePreviewModel {
     if (data == null) {
       return null;
     }
-    print('start to RecipeDetailModel.fromSnapshot');
-    // print(data);
     List photoJson = data['photos'] ?? [];
     final photoArray = photoJson.map((f) => f.toString()).toList();
 
@@ -36,11 +34,7 @@ class RecipeDetailModel extends RecipePreviewModel {
     final List<Instruction> instructions = [];
     if (data['ingredients'] != null) {
       List ingredientJson = data['ingredients'];
-      // print(ingredientJson.length);
-      // print(ingredientJson);
       ingredientJson.forEach((e) {
-        // print("looping through ingredients");
-        // print(e.toString());
         ingredients.add(new Ingredient(
             e['ingredientName'],
             "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSDsgw4IdTwfd6DVqNX31enKvTpwKKwU-7yvEf_ehbGXA0aC05b&usqp=CAU",
@@ -51,11 +45,7 @@ class RecipeDetailModel extends RecipePreviewModel {
 
     if (data['instructions'] != null) {
       List instructionJson = data['instructions'];
-      // print(instructionJson.length);
-      // print(instructionJson);
       instructionJson.forEach((e) {
-        // print("looping through instructions");
-        // print(e.toString());
         instructions.add(new Instruction(
             e['seq'], e['detail'], e['tips'], null //e['photo']['smallUrl'],
             ));

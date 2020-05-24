@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mademe/app/plan/widget_ingredient_list_tile.dart';
-import 'package:mademe/services/plan_ingredient_service.dart';
-import 'package:mademe/services/plan_service.dart';
+import 'package:mademe/models/plan_ingredient_model.dart';
+import 'package:mademe/services/firestore/plan_ingredient_service.dart';
+import 'package:mademe/services/firestore/plan_service.dart';
 import 'package:provider/provider.dart';
 
 class PlanIngredientPage extends StatelessWidget {
@@ -61,7 +62,6 @@ class PlanIngredientPage extends StatelessWidget {
               physics: ClampingScrollPhysics(),
               scrollDirection: Axis.vertical,
               children: snapshot.data.map((PlanIngredient doc) {
-                //change name here
                 return PlanIngredientTile(
                   id: doc.id,
                   title: doc.title,

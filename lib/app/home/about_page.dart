@@ -1,6 +1,6 @@
-import 'package:mademe/common_widgets/avatar.dart';
+import 'package:mademe/services/firebase_storage/firestore_service.dart';
+import 'package:mademe/widgets/avatar.dart';
 import 'package:mademe/models/avatar_reference.dart';
-import 'package:mademe/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

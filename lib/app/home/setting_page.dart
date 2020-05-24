@@ -1,8 +1,8 @@
 import 'package:image_picker/image_picker.dart';
-import 'package:mademe/common_widgets/avatar.dart';
+import 'package:mademe/services/firebase_storage/firebase_storage_service.dart';
+import 'package:mademe/services/firebase_storage/firestore_service.dart';
+import 'package:mademe/widgets/avatar.dart';
 import 'package:mademe/models/avatar_reference.dart';
-import 'package:mademe/services/firebase_storage_service.dart';
-import 'package:mademe/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:mademe/services/image_picker_service.dart';
 import 'package:provider/provider.dart';

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:mademe/models/plan_recipe_model.dart';
 import 'package:mademe/models/recipe_preview_model.dart';
 import 'package:mademe/utilities/log.dart';
 
@@ -63,6 +64,11 @@ class PlanRecipeService {
         var recipeMap = {
           recipe.id: {"title": recipe.title, "amount": amount}
         };
+        if (obj == null) {
+          printE('Please add this ingredient to its collection: $title');
+          return;
+        }
+
         obj.addAll({
           "recipes": [recipeMap],
           "recipeIDs": [recipe.id],
@@ -101,42 +107,5 @@ class PlanRecipeService {
         });
       }
     });
-  }
-}
-
-class PlanRecipe {
-  final String id;
-  final String recipeID;
-  final String title;
-  final String description;
-  final List<String> photos;
-  final String status;
-
-  PlanRecipe(this.id, this.recipeID, this.title, this.description, this.photos,
-      this.status);
-
-  // factory PlanRecipe.fromMap(Map<String, dynamic> data) {
-  //   if (data == null) {
-  //     return null;
-  //   }
-  //   final String id = "xxx";
-  //   final String title = data['title'] ?? '';
-  //   final String description = data['description'] ?? '';
-  //   final List<String> photos = data['photos'] ?? [];
-  //   final String status = data['status'] ?? '';
-  //   return PlanRecipe(id, title, description, photos, status);
-  // }
-
-  static PlanRecipe fromSnapshot(DocumentSnapshot snap) {
-    List photoJson = snap.data['photos'];
-    final photoArray = photoJson.map((f) => f.toString()).toList();
-    return PlanRecipe(
-      snap.documentID,
-      snap.data['id'],
-      snap.data['title'],
-      snap.data['description'],
-      photoArray ?? [],
-      snap.data['status'] ?? '',
-    );
   }
 }

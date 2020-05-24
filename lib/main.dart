@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mademe/app/auth_widget.dart';
 import 'package:mademe/app/auth_widget_builder.dart';
-import 'package:mademe/services/firebase_auth_service.dart';
+import 'package:mademe/services/auth/firebase_auth_service.dart';
 import 'package:mademe/services/image_picker_service.dart';
+import 'package:mademe/utilities/styles.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            primaryColor: Color(0xFF433D3E),
+            primaryColor: sColorBody1,
           ),
           home: AuthWidget(userSnapshot: userSnapshot),
         );
