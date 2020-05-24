@@ -139,9 +139,9 @@ class _SignInPageState extends State<SignInPage> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color(0xFFE6DBDD),
-                    Color(0xFF9C9495),
-                    Color(0xFF433C3E),
+                    sColorBody3,
+                    sColorBody2,
+                    sColorBody1,
                   ],
                   stops: [0.1, 0.3, 0.9],
                 ),
@@ -241,7 +241,7 @@ class _SignInPageState extends State<SignInPage> {
                 color: Colors.white,
               ),
               hintText: 'Enter your Email',
-              hintStyle: kHintTextStyle,
+              hintStyle: styleHintText,
             ),
           ),
         ),
@@ -272,7 +272,7 @@ class _SignInPageState extends State<SignInPage> {
                 color: Colors.white,
               ),
               hintText: 'Enter your Password',
-              hintStyle: kHintTextStyle,
+              hintStyle: styleHintText,
             ),
           ),
         ),
@@ -303,7 +303,7 @@ class _SignInPageState extends State<SignInPage> {
                 color: Colors.white,
               ),
               hintText: 'Confirm your Password',
-              hintStyle: kHintTextStyle,
+              hintStyle: styleHintText,
             ),
           ),
         ),
@@ -328,7 +328,7 @@ class _SignInPageState extends State<SignInPage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
-        color: Color(0xFFFE3562),
+        color: sColorButton1,
         child: Text(
           _isMember ? 'LOGIN' : 'SIGNUP',
           style: TextStyle(
@@ -489,7 +489,7 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   final _inputBoxDecorationStyle = BoxDecoration(
-    color: Color(0xFF433D3E),
+    color: sColorBody1,
     borderRadius: BorderRadius.circular(10.0),
     boxShadow: [
       BoxShadow(

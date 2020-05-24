@@ -5,6 +5,7 @@ import 'package:mademe/models/plan_recipe_model.dart';
 import 'package:mademe/services/elastic_search/search_recipe_service.dart';
 import 'package:mademe/services/firestore/plan_recipe_service.dart';
 import 'package:mademe/services/firestore/plan_service.dart';
+import 'package:mademe/utilities/styles.dart';
 import 'package:provider/provider.dart';
 
 class PlanRecipePage extends StatelessWidget {
@@ -32,7 +33,7 @@ class PlanRecipePage extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 24),
       height: 50,
       decoration: BoxDecoration(
-          color: Color(0xffEFEFEF), borderRadius: BorderRadius.circular(14)),
+          color: sColorBody4, borderRadius: BorderRadius.circular(14)),
       child: Row(
         children: <Widget>[
           Icon(Icons.search),

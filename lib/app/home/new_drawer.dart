@@ -4,6 +4,7 @@ import 'package:mademe/app/home/setting_page.dart';
 import 'package:mademe/services/auth/firebase_auth_service.dart';
 import 'package:mademe/services/firebase_storage/firestore_service.dart';
 import 'package:mademe/services/firestore/plan_service.dart';
+import 'package:mademe/utilities/styles.dart';
 import 'package:mademe/widgets/avatar.dart';
 import 'package:mademe/models/avatar_reference.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +16,7 @@ class NewDrawer extends StatelessWidget {
     final planService = Provider.of<PlanService>(context, listen: false);
     return Container(
       width: 200.0,
-      decoration: BoxDecoration(color: Color(0xFF433C3E)),
+      decoration: BoxDecoration(color: sColorBody1),
       child: Column(
         children: <Widget>[
           Expanded(flex: 3, child: _createHeader(context)),
@@ -124,7 +125,7 @@ Widget _createHeader(BuildContext context) {
         Text(
           'Welcome',
           style: TextStyle(
-            color: Colors.white,
+            color: sColorTextHeader1,
             fontSize: 25.0,
             fontWeight: FontWeight.bold,
           ),
@@ -149,14 +150,14 @@ Widget _createDrawerItem(
       children: <Widget>[
         Icon(
           icon,
-          color: Colors.white,
+          color: sColorTextHeader1,
         ),
         Padding(
           padding: EdgeInsets.only(left: 12.0),
           child: Text(
             text,
             style: TextStyle(
-              color: Colors.white,
+              color: sColorTextHeader1,
               fontSize: 15.0,
             ),
           ),

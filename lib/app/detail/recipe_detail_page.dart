@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mademe/models/recipe_detail_model.dart';
 import 'package:mademe/services/firestore/plan_recipe_service.dart';
+import 'package:mademe/utilities/styles.dart';
 
 import 'recipe_ingredient_tile.dart';
 
@@ -14,7 +15,7 @@ class RecipeDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFE6DBDD), //0xFF433C3E
+      backgroundColor: sColorBody3,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(top: 130.0, left: 10.0),
         child: FloatingActionButton(
@@ -96,7 +97,7 @@ class RecipeDetail extends StatelessWidget {
                         Text(
                           recipeDetail.title,
                           style: TextStyle(
-                            color: Colors.brown,
+                            color: sColorTextTitle1,
                             fontSize: 25.0,
                             fontWeight: FontWeight.bold,
                           ),
@@ -105,7 +106,7 @@ class RecipeDetail extends StatelessWidget {
                         Text(
                           recipeDetail.description,
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: sColorTextDesc1,
                             fontSize: 15.0,
                             fontWeight: FontWeight.w400,
                           ),
@@ -137,7 +138,7 @@ class RecipeDetail extends StatelessWidget {
         SizedBox(width: 30.0),
         Text(title,
             style: TextStyle(
-              color: Colors.brown,
+              color: sColorTextTitle1,
               fontSize: 22.0,
               fontWeight: FontWeight.bold,
             ))
@@ -187,7 +188,7 @@ class RecipeDetail extends StatelessWidget {
             Text(
               recipeDetail.instructions[index].seq.toString() + '. ',
               style: TextStyle(
-                color: Colors.black26,
+                color: sColorTextDetail1,
                 fontSize: 15.0,
                 fontWeight: FontWeight.w900,
               ),
@@ -198,7 +199,7 @@ class RecipeDetail extends StatelessWidget {
               child: Text(
                 recipeDetail.instructions[index].detail ?? '',
                 style: TextStyle(
-                  color: Colors.grey,
+                  color: sColorTextDesc1,
                   fontSize: 15.0,
                   fontWeight: FontWeight.w400,
                 ),

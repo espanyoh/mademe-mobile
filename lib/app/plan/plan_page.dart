@@ -4,6 +4,7 @@ import 'package:mademe/app/plan/plan_tab_ingredient_page.dart';
 import 'package:mademe/app/plan/plan_tab_recipe_page.dart';
 import 'package:mademe/models/plan_model.dart';
 import 'package:mademe/services/navigation_bar_service.dart';
+import 'package:mademe/utilities/styles.dart';
 import 'package:provider/provider.dart';
 
 class PlanHomePage extends StatelessWidget {
@@ -16,7 +17,7 @@ class PlanHomePage extends StatelessWidget {
     final navigatorBar = Provider.of<BottomNavigationBarService>(context);
 
     return Scaffold(
-      backgroundColor: Color(0xFFE6DBDD),
+      backgroundColor: sColorBody3,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 0.0),
         child: Column(

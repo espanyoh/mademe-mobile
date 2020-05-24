@@ -7,6 +7,7 @@ import 'package:mademe/services/firestore/plan_recipe_service.dart';
 import 'package:mademe/services/firestore/plan_service.dart';
 import 'package:mademe/services/navigation_bar_service.dart';
 import 'package:flutter/material.dart';
+import 'package:mademe/utilities/styles.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
@@ -17,7 +18,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       drawer: NewDrawer(),
-      backgroundColor: Color(0xFFE6DBDD),
+      backgroundColor: sColorBody3,
       body: Column(
         children: <Widget>[
           Row(

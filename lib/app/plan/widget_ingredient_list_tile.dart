@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mademe/services/firestore/plan_ingredient_service.dart';
 import 'package:mademe/services/firestore/plan_service.dart';
+import 'package:mademe/utilities/styles.dart';
 import 'package:provider/provider.dart';
 
 class PlanIngredientTile extends StatelessWidget {
@@ -35,7 +36,7 @@ class PlanIngredientTile extends StatelessWidget {
       padding: const EdgeInsets.all(3.0),
       child: Container(
         decoration: BoxDecoration(
-            color: Color(0xffFFEEE0), borderRadius: BorderRadius.circular(15)),
+            color: sColorBody4, borderRadius: BorderRadius.circular(15)),
         // padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Row(
           children: <Widget>[
@@ -48,7 +49,7 @@ class PlanIngredientTile extends StatelessWidget {
                 Container(
                   width: 170.0,
                   child: Text(title,
-                      style: TextStyle(color: Color(0xffFC9535), fontSize: 14),
+                      style: TextStyle(color: sColorText1, fontSize: 14),
                       overflow: TextOverflow.ellipsis),
                 ),
                 SizedBox(

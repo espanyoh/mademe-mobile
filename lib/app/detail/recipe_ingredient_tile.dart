@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mademe/models/recipe_detail_model.dart';
+import 'package:mademe/utilities/styles.dart';
 
 class RecipeIngredientTile extends StatelessWidget {
   final Ingredient ingredient;
@@ -20,7 +21,7 @@ class RecipeIngredientTile extends StatelessWidget {
               Container(
                 width: 60.0,
                 decoration: BoxDecoration(
-                  color: Color(0xffEFEFEF),
+                  color: sColorBody4,
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 margin: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),

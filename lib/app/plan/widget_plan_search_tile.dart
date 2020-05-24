@@ -48,7 +48,6 @@ class PlanSearchTile extends StatelessWidget {
                 child: Container(
                   width: 160.0,
                   decoration: BoxDecoration(
-                    // color: Color(0xFF32A060),
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                   margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 30.0),
